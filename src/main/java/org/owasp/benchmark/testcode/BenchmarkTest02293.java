@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-02/BenchmarkTest02293")
 public class BenchmarkTest02293 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest02293 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = "";
 		boolean flag = true;
 		java.util.Enumeration<String> names = request.getParameterNames();
@@ -56,7 +50,6 @@ public class BenchmarkTest02293 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 		// Code based on example from:
@@ -102,7 +95,6 @@ public class BenchmarkTest02293 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 			
 		} catch (java.security.NoSuchAlgorithmException e) {
 			response.getWriter().println(
@@ -148,7 +140,6 @@ e.printStackTrace(response.getWriter());
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a87246 = param; //assign
 		StringBuilder b87246 = new StringBuilder(a87246);  // stick in stringbuilder

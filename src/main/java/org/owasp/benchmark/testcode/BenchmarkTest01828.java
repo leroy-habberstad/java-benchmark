@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-02/BenchmarkTest01828")
 public class BenchmarkTest01828 extends HttpServlet {
 	
@@ -41,11 +37,9 @@ public class BenchmarkTest01828 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/crypto-02/BenchmarkTest01828.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		javax.servlet.http.Cookie[] theCookies = request.getCookies();
 		
 		String param = "noCookieValueSupplied";
@@ -57,12 +51,10 @@ public class BenchmarkTest01828 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 		// Code based on example from:
 		// http://examples.javacodegeeks.com/core-java/crypto/encrypt-decrypt-file-stream-with-des/
-
 		try {
 			javax.crypto.Cipher c = org.owasp.benchmark.helpers.Utils.getCipher();
 			// encrypt and store the results
@@ -90,7 +82,6 @@ public class BenchmarkTest01828 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 		} catch (javax.crypto.IllegalBlockSizeException e) {
 			response.getWriter().println(
 "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
@@ -111,7 +102,6 @@ e.printStackTrace(response.getWriter());
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		StringBuilder sbxyz6675 = new StringBuilder(param);
 		String bar = sbxyz6675.append("_SafeStuff").toString();
 	

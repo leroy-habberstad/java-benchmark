@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/trustbound-01/BenchmarkTest01876")
 public class BenchmarkTest01876 extends HttpServlet {
 	
@@ -41,11 +37,9 @@ public class BenchmarkTest01876 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/trustbound-01/BenchmarkTest01876.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		javax.servlet.http.Cookie[] theCookies = request.getCookies();
 		
 		String param = "noCookieValueSupplied";
@@ -57,7 +51,6 @@ public class BenchmarkTest01876 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 		// javax.servlet.http.HttpSession.setAttribute(java.lang.String,java.lang.Object^)
@@ -71,7 +64,6 @@ public class BenchmarkTest01876 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = param;
 		if (param != null && param.length() > 1) {
 		    bar = param.substring(0,param.length()-1);

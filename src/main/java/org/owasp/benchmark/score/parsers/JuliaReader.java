@@ -15,21 +15,16 @@
 * @author Fausto Spoto <a href="http://www.juliasoft.com">Julia Srl</a>
 * @created 2016
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 public class JuliaReader extends Reader {
 	
 	public TestResults parse(File f) throws Exception {
@@ -40,7 +35,6 @@ public class JuliaReader extends Reader {
 		Document doc = docBuilder.parse(is);
 		
 		TestResults tr = new TestResults("Julia", true, TestResults.ToolType.SAST);
-
 		Node root = doc.getDocumentElement();
 		
 		// Get run time from results file
@@ -50,7 +44,6 @@ public class JuliaReader extends Reader {
 		// Get the version number from the results file
         String juliaVersion = getNamedChild("engineVersion", root ).getTextContent();
 		tr.setToolVersion(juliaVersion);
-
 		// Now pull all the test results out and return them.
 		NodeList nl = root.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
@@ -61,13 +54,11 @@ public class JuliaReader extends Reader {
 		
 		return tr;
 	}
-
 	// refactoring resilient
 	private static final String prefixOfTest = "org.owasp.benchmark.testcode." + BenchmarkScore.BENCHMARKTESTNAME;
 	
 	private TestCaseResult parseJuliaBug(Node n) {
 		TestCaseResult tcr = new TestCaseResult();
-
 		NodeList nl = n.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node child = nl.item(i);
@@ -83,7 +74,6 @@ public class JuliaReader extends Reader {
 			else if (childName.equals("CWEid"))
 				tcr.setCWE(Integer.parseInt(child.getTextContent()));
 		}
-
 		return tcr;
 	}
 }

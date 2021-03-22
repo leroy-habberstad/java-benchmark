@@ -1,5 +1,4 @@
 package org.owasp.benchmark.score.report;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -31,15 +29,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
-
 public class ScatterPlot {
-
 	// This variable is directly accessed by ScatterHome.java
     JFreeChart chart = null;
     static final StandardChartTheme theme = initializeTheme();
     static final DecimalFormat pctFormat = new DecimalFormat("0'%'");
     static final Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 6, 3 }, 0);
-
     public static StandardChartTheme initializeTheme() {
         String fontName = "Arial";
         StandardChartTheme theme = (StandardChartTheme) org.jfree.chart.StandardChartTheme.createJFreeTheme();
@@ -60,7 +55,6 @@ public class ScatterPlot {
     public void initializePlot( XYPlot xyplot ) {
         NumberAxis rangeAxis = (NumberAxis) xyplot.getRangeAxis();
         NumberAxis domainAxis = (NumberAxis) xyplot.getDomainAxis();
-
         rangeAxis.setRange(-9.99, 109.99);
         rangeAxis.setNumberFormatOverride(pctFormat);
         rangeAxis.setTickLabelPaint(Color.decode("#666666"));
@@ -93,7 +87,6 @@ public class ScatterPlot {
         xyplot.setDomainMinorGridlinePaint(Color.decode("#DDDDDD"));
         xyplot.setDomainMinorGridlinesVisible(true);
         xyplot.getRenderer().setSeriesPaint(0, Color.decode("#4572a7"));
-
         chart.setTextAntiAlias(true);
         chart.setAntiAlias(true);
         chart.removeLegend();
@@ -128,7 +121,6 @@ public class ScatterPlot {
         ChartUtilities.writeChartAsPNG(stream, chart, (int)Math.round(height*1.4), height);
         stream.close();
     }
-
     public static void addGenerationDate(XYPlot xyplot) {
         //add scorecard generation date
         final String pattern = "dd MMM yyyy h:mm a";
@@ -141,7 +133,6 @@ public class ScatterPlot {
         gendate.setFont(theme.getRegularFont());
         xyplot.addAnnotation( gendate );
     }
-
     public static void makePoint(XYPlot xyplot, Point2D location, double radius, Color color ) {
         double x = location.getX() - radius/2;
         double y = location.getY() - radius/2;
@@ -155,7 +146,6 @@ public class ScatterPlot {
         XYShapeAnnotation area = new XYShapeAnnotation(rect, new BasicStroke(), color, color );
         xyplot.addAnnotation( area );
     }    
-
     public static void makeTriangle(XYPlot xyplot, Point2D location, Color color ) {
         Polygon p = new Polygon();
         p.addPoint(0,0);
@@ -169,20 +159,16 @@ public class ScatterPlot {
         // draw guessing line
         XYLineAnnotation guessing = new XYLineAnnotation(-5, -5, 100, 100, dashed, Color.red);
         xyplot.addAnnotation(guessing);
-
         XYPointerAnnotation worse = makePointer(80, 0, "Worse than guessing", TextAnchor.TOP_CENTER, 90);
         xyplot.addAnnotation(worse);
-
         XYPointerAnnotation better = makePointer(25, 100, "Better than guessing", TextAnchor.BOTTOM_CENTER, 270);
         xyplot.addAnnotation(better);
-
         XYTextAnnotation stroketext = new XYTextAnnotation("                     Random Guess", 88, 107);
         stroketext.setTextAnchor(TextAnchor.CENTER_RIGHT);
         stroketext.setBackgroundPaint(Color.white);
         stroketext.setPaint(Color.red);
         stroketext.setFont(theme.getRegularFont());
         xyplot.addAnnotation(stroketext);
-
         XYLineAnnotation strokekey = new XYLineAnnotation(58, 107, 68, 107, dashed, Color.red);
         xyplot.setBackgroundPaint(Color.white);
         xyplot.addAnnotation(strokekey);
@@ -196,7 +182,6 @@ public class ScatterPlot {
         XYShapeAnnotation area = new XYShapeAnnotation(diag, new BasicStroke(), Color.gray );
         xyplot.addAnnotation( area );
     }
-
     public static Shape rotate(Shape shape, int angle)
     {
         Rectangle bounds = shape.getBounds();

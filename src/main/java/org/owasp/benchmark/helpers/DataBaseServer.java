@@ -1,15 +1,12 @@
 package org.owasp.benchmark.helpers;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.owasp.benchmark.service.pojo.Person;
 import org.owasp.benchmark.service.pojo.StringMessage;
 import org.springframework.http.HttpStatus;
@@ -18,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 public class DataBaseServer {
-
 	@RequestMapping(value = "/resetdb", method = RequestMethod.GET)
 	public ResponseEntity<List<StringMessage>> getOtherOrder(@RequestBody Person model, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +24,6 @@ public class DataBaseServer {
 		resp.add(new StringMessage("Message", "Not Implemented."));
 		return new ResponseEntity<List<StringMessage>>(resp, HttpStatus.OK);
 	}
-
 	@RequestMapping(value = "/testdb", method = RequestMethod.POST)
 	public ResponseEntity<List<StringMessage>> createOrder2(@RequestBody Person model, HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +31,6 @@ public class DataBaseServer {
 		resp.add(new StringMessage("Message", "Not Implemented."));
 		return new ResponseEntity<List<StringMessage>>(resp, HttpStatus.OK);
 	}
-
 	@RequestMapping(value = "/getall", method = RequestMethod.GET)
 	public ResponseEntity<List<StringMessage>> getAll(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -58,9 +51,6 @@ public class DataBaseServer {
 		}
 		return new ResponseEntity<List<StringMessage>>(resp, HttpStatus.OK);
 	}
-
 	public static void main(String[] args) throws ServletException, IOException, NamingException, SQLException {
-
 	}
-
 }

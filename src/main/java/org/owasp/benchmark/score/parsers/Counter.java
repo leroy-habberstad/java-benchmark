@@ -15,11 +15,8 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 public class Counter {
-
 	public int tp = 0;
 	public int fn = 0;
 	public int tn = 0;

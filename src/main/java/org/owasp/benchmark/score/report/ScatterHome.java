@@ -15,9 +15,7 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.report;
-
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.io.File;
@@ -29,9 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.swing.JFrame;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -45,14 +41,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.TextAnchor;
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.owasp.benchmark.score.parsers.OverallResults;
-
 public class ScatterHome extends ScatterPlot {
     private static char averageLabel;
     private double afr = 0;
     private double atr = 0;
     public final String focus;
     public static final char INITIAL_LABEL = 'A';
-
     
     /**
      * This calculates the summary chart across all the tools analyzed against the Benchmark.
@@ -65,7 +59,6 @@ public class ScatterHome extends ScatterPlot {
         this.focus = focus;
         display("          " + title, height, toolResults );
     }
-
     private JFreeChart display(String title, int height, Set<Report> toolResults ) {
         JFrame f = new JFrame(title);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,14 +114,12 @@ public class ScatterHome extends ScatterPlot {
         
         chart = ChartFactory.createScatterPlot(title, "False Positive Rate", "True Positive Rate", dataset, PlotOrientation.VERTICAL, true, true, false);
         theme.apply(chart);
-
         XYPlot xyplot = chart.getXYPlot();
         initializePlot( xyplot );
         addGenerationDate( xyplot );
         
         makeDataLabels( toolResults, xyplot );
         makeLegend( toolResults, 103, 100.5, dataset, xyplot );
-
         for ( XYDataItem item : (List<XYDataItem>)series.getItems() ) {
             double x = item.getX().doubleValue();
             double y = item.getY().doubleValue();
@@ -136,7 +127,6 @@ public class ScatterHome extends ScatterPlot {
             XYLineAnnotation score = new XYLineAnnotation(x, y, z, z, dashed, Color.blue);
             xyplot.addAnnotation(score);
         }     
-
         ChartPanel cp = new ChartPanel(chart, height, height, 400, 400, 1200, 1200, false, false, false, false, false, false);
         f.add(cp);
         f.pack();
@@ -144,7 +134,6 @@ public class ScatterHome extends ScatterPlot {
 //      f.setVisible(true);
         return chart;
     }
-
     
     private void makeDataLabels( Set<Report> toolResults, XYPlot xyplot ) {        
         HashMap<Point2D,String> map = makePointList( toolResults );
@@ -178,7 +167,6 @@ public class ScatterHome extends ScatterPlot {
         }
         return sb.toString();
     }
-
     
     static SecureRandom sr = new SecureRandom();
     // This method generates all the points put on the home page chart. One per tool.
@@ -226,7 +214,6 @@ public class ScatterHome extends ScatterPlot {
         dedupify( map );
         return map;
     }
-
     
     private static void dedupify(HashMap<Point2D, String> map) {
         for (Entry<Point2D,String> e1 : map.entrySet() ) {
@@ -242,7 +229,6 @@ public class ScatterHome extends ScatterPlot {
             }
         }
     }
-
     private static Entry<Point2D, String> getMatch(HashMap<Point2D, String> map, Entry<Point2D,String> e1) {
         for ( Entry<Point2D,String> e2 : map.entrySet() ) {
             Double xd = Math.abs( e1.getKey().getX() - e2.getKey().getX() );
@@ -254,8 +240,6 @@ public class ScatterHome extends ScatterPlot {
         }
         return null;
     }
-
-
     private void makeLegend( Set<Report> toolResults, double x, double y, XYSeriesCollection dataset, XYPlot xyplot ) {
         char ch = INITIAL_LABEL; // This is the first label in the Key with all the tools processed by this scorecard
         int i = -2; // Used to keep track of which row in the key were are processing. Helps calculate the Y axis
@@ -304,7 +288,6 @@ public class ScatterHome extends ScatterPlot {
             
             OverallResults or = r.getOverallResults();
             if ( r.isCommercial() ) {
-
                 // print commercial label if there is at least one commercial tool
                 if ( !printedCommercialLabel ) {
                     XYTextAnnotation stroketext = new XYTextAnnotation("Commercial", x, y + i * -3.3);
@@ -353,12 +336,10 @@ public class ScatterHome extends ScatterPlot {
             stroketext2.setPaint(Color.magenta);
             stroketext2.setFont(theme.getRegularFont());            
             xyplot.addAnnotation(stroketext2);
-
             Point2D averagePoint = new Point2D.Double( afr*100, atr*100 );
             makePoint(xyplot, averagePoint, 3, Color.magenta );
         }       
     }
-
     public static void generateComparisonChart(Set<Report> toolResults, String focus ) {
     	try {
     		String scatterTitle = "OWASP Benchmark" 

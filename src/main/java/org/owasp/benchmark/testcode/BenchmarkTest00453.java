@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-00/BenchmarkTest00453")
 public class BenchmarkTest00453 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest00453 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -63,7 +58,6 @@ public class BenchmarkTest00453 extends HttpServlet {
 	        if (System.getProperty("os.name").indexOf("Windows") != -1)
 	        	startURIslashes = "/";
 	        else startURIslashes = "//";
-
 		try {
 			java.net.URI fileURI = new java.net.URI("file", null, startURIslashes 
 				+ org.owasp.benchmark.helpers.Utils.testfileDir.replace('\\', java.io.File.separatorChar).replace(' ', '_') + bar, null, null);

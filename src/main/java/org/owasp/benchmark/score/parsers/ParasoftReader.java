@@ -15,24 +15,18 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 public class ParasoftReader extends Reader {
-
     public TestResults parse(File f) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
@@ -40,21 +34,16 @@ public class ParasoftReader extends Reader {
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         InputSource is = new InputSource(new FileInputStream(f));
         Document doc = docBuilder.parse(is);
-
         TestResults tr = new TestResults( "Parasoft Jtest", true,TestResults.ToolType.SAST);
-
         Node root = doc.getDocumentElement();
-
         // <ResultsSession time="06/03/15 10:10:09" toolName="Jtest" toolVer="9.5.13.20140908>
         String version = getAttributeValue("toolVer", root);
         tr.setToolVersion( version );
-
         NodeList rootList = root.getChildNodes();
         List<Node> stds = getNamedNodes( "CodingStandards", rootList );
         Node std = stds.get(0);
         String time = getAttributeValue( "time", std );
         tr.setTime( time );
-
         List<Node> viols = getNamedChildren( "StdViols", stds );
         
         List<Node> stdList = getNamedChildren( "StdViol", viols );
@@ -76,7 +65,6 @@ public class ParasoftReader extends Reader {
         }
         return tr;
     }
-
     private TestCaseResult parseStdViol(Node flaw) {
         // <StdViol sev="2" ln="49" cat="SECURITY.IBA" hash="395273668" tool="jtest" locType="sr" 
         // msg="'getName()' is a dangerous data-returning method and should be encapsulated by a validation" 
@@ -98,7 +86,6 @@ public class ParasoftReader extends Reader {
             tcr.setCategory( getAttributeValue( "rule", flaw ) );
             tcr.setConfidence( Integer.parseInt( getAttributeValue( "sev", flaw) ) );
             tcr.setEvidence( getAttributeValue( "msg", flaw ) );
-
             String testcase = getAttributeValue( "locFile", flaw );
             testcase = testcase.substring( testcase.lastIndexOf('/') );
             if ( testcase.startsWith( BenchmarkScore.BENCHMARKTESTNAME ) ) {
@@ -109,7 +96,6 @@ public class ParasoftReader extends Reader {
         }
         return null;
     }
-
     private TestCaseResult parseFlowViol(Node flaw) {
         // <FlowViol sev="1" ln="64" hash="-1497144802" ruleSCSCMsg="Tainting Point" tool="jtest" 
         // locType="sr" sym="=TempProject/java&lt;org.owasp.benchmark.testcode" lang="java"
@@ -118,7 +104,6 @@ public class ParasoftReader extends Reader {
         // auth="kupsch" FirstElSrcRngOffs="1570" FirstElSrcRngLen="30" 
         // FirstElSrcRngFile="/temp/java/org/owasp/benchmark/testcode/BenchmarkTest00002.java" locOffs="1970" locLen="95"
         // locFile="/temp/java/org/owasp/benchmark/testcode/BenchmarkTest00002.java">
-
         TestCaseResult tcr = new TestCaseResult();
         String cat = getAttributeValue("rule", flaw);
         tcr.setCWE( cweLookup( cat ) );
@@ -128,7 +113,6 @@ public class ParasoftReader extends Reader {
  
         String severity = getAttributeValue( "sev", flaw);
         tcr.setConfidence( Integer.parseInt( severity ) );
-
         String msg = getAttributeValue( "msg", flaw );
         tcr.setEvidence( msg );
         
@@ -141,10 +125,8 @@ public class ParasoftReader extends Reader {
         }
         return null;
     }
-
     //https://www.securecoding.cert.org/confluence/display/java/Parasoft
     private int cweLookup(String cat) {
-
         switch( cat ) {
 //        case "BD.PB.CC" : return x;
 //        case "BD.RES.LEAKS" : return x;
@@ -173,5 +155,4 @@ public class ParasoftReader extends Reader {
         }
         return -1;
     }
-
 }

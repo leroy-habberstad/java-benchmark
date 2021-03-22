@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-01/BenchmarkTest01147")
 public class BenchmarkTest01147 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01147 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -49,7 +44,6 @@ public class BenchmarkTest01147 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeaders() doesn't. Unlike req.getParameters().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
 		// Code based on example from:
@@ -97,7 +91,6 @@ public class BenchmarkTest01147 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 			
 		} catch (java.security.NoSuchAlgorithmException e) {
 			response.getWriter().println(
@@ -139,22 +132,16 @@ e.printStackTrace(response.getWriter());
 		response.getWriter().println(
 "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) executed"
 );
-
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = param;
 		if (param != null && param.length() > 1) {
 		    StringBuilder sbxyz71288 = new StringBuilder(param);
 		    bar = sbxyz71288.replace(param.length()-"Z".length(), param.length(),"Z").toString();
 		}
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

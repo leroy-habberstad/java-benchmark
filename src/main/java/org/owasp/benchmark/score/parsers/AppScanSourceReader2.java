@@ -15,38 +15,29 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2018
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 public class AppScanSourceReader2 extends Reader {
 	
 	// This is the new AppScan Source reader, where they generate ".xml" files.
-
 	public TestResults parse( File f ) throws Exception {
-
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
 		docBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 		InputSource is = new InputSource( new FileInputStream(f) );
 		Document doc = docBuilder.parse(is);
-
 		Node root = doc.getDocumentElement();
 		Node scanInfo = getNamedChild( "scan-information", root );
 		TestResults tr = new TestResults( "IBM AppScan Cloud", true, TestResults.ToolType.SAST);
-
 		Node version = getNamedChild( "product-version", scanInfo );
 //    System.out.println("Product version is: " + version.getTextContent());
 		tr.setToolVersion( version.getTextContent() );
@@ -59,7 +50,6 @@ public class AppScanSourceReader2 extends Reader {
 			
 			// First get the type of vuln, and if we don't care about that type, move on
 			String issueType = getNamedChild( "ref", getNamedChild( "issue-type", vulnerability)).getTextContent();
-
 			int vtype = cweLookup(issueType);
 //	System.out.println("Vuln type: " + issueType + " has CWE of: " + vtype);
 			
@@ -68,9 +58,7 @@ public class AppScanSourceReader2 extends Reader {
 			Node methodSigNode = getNamedChild( "method-signature2", getNamedChild( "issue-information", itemNode));
 			int tn = -1; // -1 means vuln not found in a Benchmark test case
 			if (methodSigNode != null) {
-
 				String filename = getAttributeValue( "filename", methodSigNode );
-
 				// Some method signatures have a filename attribute, others do not, depending on the vuln type.
 				if (filename != null) {
 					// Parse out test number from: BenchmarkTest02603:99
@@ -127,17 +115,14 @@ public class AppScanSourceReader2 extends Reader {
         if ( secs.length() < 2 ) secs = "0" + secs;
 	    return hours + ":" + mins + ":" + secs;
     }
-
 	private static int cweLookup(String vtype) {
 		switch( vtype ) {
 //			case "AppDOS" : return 00;
 //			case "Authentication.Entity" : return 00;
-
 			case "CrossSiteScripting" : return 79;
 			case "Cryptography.InsecureAlgorithm" : return 327;
 			case "Cryptography.PoorEntropy" : return 330;
 //			case "Cryptography.????WeakHash" : return 328;  // They don't have a weak hashing rule
-
 //			case "ErrorHandling.RevealDetails.Message" : return 00;
 //			case "ErrorHandling.RevealDetails.StackTrace" : return 00;
 			case "Injection.HttpResponseSplitting" : return 113;
@@ -158,9 +143,7 @@ public class AppScanSourceReader2 extends Reader {
 			case "Validation.Required.WriteToStream" : return 502;
 			
 			default : 	System.out.println("Identified unknown type of: " + vtype);
-
 		}
 		return 0;
 	}
-
 }

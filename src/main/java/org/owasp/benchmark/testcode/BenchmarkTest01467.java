@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-03/BenchmarkTest01467")
 public class BenchmarkTest01467 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01467 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -56,7 +51,6 @@ public class BenchmarkTest01467 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = new Test().doSomething(request, param);
 		
 		String sql = "SELECT * from USERS where USERNAME='foo' and PASSWORD='" + bar + "'";
@@ -65,7 +59,6 @@ public class BenchmarkTest01467 extends HttpServlet {
 			response.getWriter().println(
 				"Your results are: <br>"
 			);
-
 	//		System.out.println("Your results are");
 			
 			for (Object o:list) {
@@ -88,12 +81,9 @@ public class BenchmarkTest01467 extends HttpServlet {
 			else throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map34856 = new java.util.HashMap<String,Object>();
 		map34856.put("keyA-34856", "a_Value"); // put some stuff in the collection
@@ -101,9 +91,7 @@ public class BenchmarkTest01467 extends HttpServlet {
 		map34856.put("keyC", "another_Value"); // put some stuff in the collection
 		bar = (String)map34856.get("keyB-34856"); // get it back out
 		bar = (String)map34856.get("keyA-34856"); // get safe value back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

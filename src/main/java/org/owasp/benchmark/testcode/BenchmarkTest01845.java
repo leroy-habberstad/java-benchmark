@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/hash-02/BenchmarkTest01845")
 public class BenchmarkTest01845 extends HttpServlet {
 	
@@ -41,11 +37,9 @@ public class BenchmarkTest01845 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/hash-02/BenchmarkTest01845.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		javax.servlet.http.Cookie[] theCookies = request.getCookies();
 		
 		String param = "noCookieValueSupplied";
@@ -57,15 +51,12 @@ public class BenchmarkTest01845 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 		java.security.Provider[] provider = java.security.Security.getProviders();
 		java.security.MessageDigest md;
-
 		try {
 			if (provider.length > 1) {
-
 				md = java.security.MessageDigest.getInstance("SHA1", provider[0]);
 			} else {
 				md = java.security.MessageDigest.getInstance("SHA1", "SUN");
@@ -95,7 +86,6 @@ public class BenchmarkTest01845 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' hashed and stored<br/>"
 );
-
 		} catch (java.security.NoSuchAlgorithmException e) {
 			System.out.println("Problem executing hash - TestCase java.security.MessageDigest.getInstance(java.lang.String,java.security.Provider)");
             throw new ServletException(e);
@@ -103,7 +93,6 @@ public class BenchmarkTest01845 extends HttpServlet {
 			System.out.println("Problem executing hash - TestCase java.security.MessageDigest.getInstance(java.lang.String,java.security.Provider)");
             throw new ServletException(e);
 		}
-
 		response.getWriter().println(
 "Hash Test java.security.MessageDigest.getInstance(java.lang.String,java.security.Provider) executed"
 );
@@ -111,7 +100,6 @@ public class BenchmarkTest01845 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar;
 		
 		// Simple ? condition that assigns constant to bar on true condition

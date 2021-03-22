@@ -15,19 +15,14 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class Rapid7Reader extends Reader {
 	
 	public TestResults parse( Node root ) throws Exception {
         TestResults tr = new TestResults( "Rapid7 AppSpider", true, TestResults.ToolType.DAST);
-
 //        <VulnSummary>
 //        <AppVersion>6.4.258.1</AppVersion>
 //        <ScanName>OwaspBenchmark</ScanName>
@@ -44,10 +39,8 @@ public class Rapid7Reader extends Reader {
 //          </Vuln>
 //        </VulnList>
 //        </VulnSummary>
-
         String duration = getNamedChild("ScanDuration", root ).getTextContent();
         tr.setTime( duration );
-
         String version = getNamedChild("AppVersion", root ).getTextContent();
         tr.setToolVersion( version );
         
@@ -142,16 +135,12 @@ public class Rapid7Reader extends Reader {
     //	</Attack>
     //	</AttackList>
     //	</Vuln>
-
 	private TestCaseResult parseRapid7Item( Node flaw ) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
-
         String type = getNamedChild("VulnType", flaw).getTextContent();
         tcr.setCategory( type );
-
         String evidence = getNamedChild("AttackType", flaw).getTextContent();
         tcr.setEvidence( evidence );
-
         Node vulnId = getNamedChild("CweId", flaw);
         if ( vulnId != null ) {
             String cweNum = vulnId.getTextContent();
@@ -183,7 +172,6 @@ public class Rapid7Reader extends Reader {
         }
         return null;
     }
-
 	
 	private static int cweLookup( String cweNum ) {
 	    if ( cweNum == null || cweNum.isEmpty() ) {
@@ -211,5 +199,4 @@ public class Rapid7Reader extends Reader {
         }
 		return cwe;
 	}
-
 }

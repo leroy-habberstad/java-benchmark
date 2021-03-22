@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/ldapi-00/BenchmarkTest00021")
 public class BenchmarkTest00021 extends HttpServlet {
 	
@@ -35,16 +31,13 @@ public class BenchmarkTest00021 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// some code
 		response.setContentType("text/html;charset=UTF-8");
 		
-
 		String param = request.getParameter("BenchmarkTest00021");
 		if (param == null) param = "";
-
 		
 	org.owasp.benchmark.helpers.LDAPManager ads = new org.owasp.benchmark.helpers.LDAPManager();
 	try {
@@ -60,7 +53,6 @@ public class BenchmarkTest00021 extends HttpServlet {
 			while (results.hasMore()) {
 				javax.naming.directory.SearchResult sr = (javax.naming.directory.SearchResult) results.next();
 				javax.naming.directory.Attributes attrs = sr.getAttributes();
-
 				javax.naming.directory.Attribute attr = attrs.get("uid");
 				javax.naming.directory.Attribute attr2 = attrs.get("street");
 				if (attr != null){

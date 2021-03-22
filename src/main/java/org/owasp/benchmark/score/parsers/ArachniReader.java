@@ -15,26 +15,20 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 public class ArachniReader extends Reader {
-
 //    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Arachni/arachni/v2.0dev/components/reporters/xml/schema.xsd">
 //    <version>2.0dev</version>
 //    <start_datetime>2015-08-17T14:21:14+03:00</start_datetime>
@@ -59,7 +53,6 @@ public class ArachniReader extends Reader {
         String start = getNamedChild( "start_datetime", arachni ).getTextContent();
         String stop = getNamedChild( "finish_datetime", arachni ).getTextContent();
         tr.setTime( calculateTime( start, stop ));
-
         Node issues = getNamedChild( "issues", arachni );
         List<Node> issueList = getNamedChildren( "issue", issues );
         
@@ -139,15 +132,12 @@ public class ArachniReader extends Reader {
         
         String cat = getNamedChild("name", flaw).getTextContent();
         tcr.setCategory( cat );
-
         // not used
         String conf = getNamedChild( "severity", flaw ).getTextContent();
         
         // confidence not available
         // tcr.setConfidence( Integer.parseInt( conf ) );
-
         tcr.setEvidence( cat );
-
         Node vector = getNamedChild( "vector", flaw );
         String uri = getNamedChild( "url", vector ).getTextContent();
         URI url = new URI( uri );
@@ -168,7 +158,6 @@ public class ArachniReader extends Reader {
         }
         return null;
     }
-
     
     private int cweLookup(String orig) {   
         

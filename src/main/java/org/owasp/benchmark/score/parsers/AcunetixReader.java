@@ -15,20 +15,15 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class AcunetixReader extends Reader {
 	
 	public TestResults parse( Node root ) throws Exception {
         TestResults tr = new TestResults( "Acunetix WVS", true, TestResults.ToolType.DAST);
         Node scan = getNamedChild( "Scan", root );
-
 //        <ScanGroup ExportedOn="11/9/2015, 21:42">
 //        <Scan>
 //         <Name><![CDATA[Scan Thread 1 ( https://172.16.11.1:8443/benchmark/ )]]></Name>
@@ -37,7 +32,6 @@ public class AcunetixReader extends Reader {
 //         <StartTime><![CDATA[11/9/2015, 14:50:33]]></StartTime>
 //         <FinishTime><![CDATA[11/9/2015, 15:31:02]]></FinishTime>
 //         <ScanTime><![CDATA[40 minutes, 29 seconds]]></ScanTime>
-
         
 //        </ReportItem>
 //      </ReportItems>
@@ -71,14 +65,11 @@ public class AcunetixReader extends Reader {
 //    <IsFalsePositive><![CDATA[False]]></IsFalsePositive>
 //    <Severity><![CDATA[medium]]></Severity>
 //    <CWE id="352"><![CDATA[CWE-352]]></CWE>
-
 	private TestCaseResult parseAcunetixItem( Node flaw ) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
-
         String cat = getNamedChild("Name", flaw).getTextContent();
         tcr.setCategory( cat );
         tcr.setEvidence( cat );
-
         Node vulnId = getNamedChild("CWE", flaw);
         if ( vulnId != null ) {
             String cweNum = getAttributeValue( "id", vulnId );
@@ -113,7 +104,6 @@ public class AcunetixReader extends Reader {
         }
         return null;
     }
-
 	
 	private static int cweLookup( String cweNum ) {
 	    if ( cweNum == null || cweNum.isEmpty() ) {
@@ -140,5 +130,4 @@ public class AcunetixReader extends Reader {
         }
 		return cwe;
 	}
-
 }

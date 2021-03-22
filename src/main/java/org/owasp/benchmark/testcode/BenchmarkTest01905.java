@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-02/BenchmarkTest01905")
 public class BenchmarkTest01905 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest01905 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = "";
 		if (request.getHeader("BenchmarkTest01905") != null) {
 			param = request.getHeader("BenchmarkTest01905");
@@ -47,12 +41,10 @@ public class BenchmarkTest01905 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = doSomething(request, param);
 		
 		String fileName = null;
 		java.io.FileInputStream fis = null;
-
 		try {
 			fileName = org.owasp.benchmark.helpers.Utils.testfileDir + bar;
 			fis = new java.io.FileInputStream(fileName);
@@ -81,7 +73,6 @@ org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(b,0,size))
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map33587 = new java.util.HashMap<String,Object>();
 		map33587.put("keyA-33587", "a_Value"); // put some stuff in the collection

@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/securecookie-00/BenchmarkTest01186")
 public class BenchmarkTest01186 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01186 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -49,7 +44,6 @@ public class BenchmarkTest01186 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeaders() doesn't. Unlike req.getParameters().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
 		byte[] input = new byte[1000];
@@ -74,22 +68,16 @@ public class BenchmarkTest01186 extends HttpServlet {
 		cookie.setPath(request.getRequestURI()); // i.e., set path to JUST this servlet
 												 // e.g., /benchmark/sql-01/BenchmarkTest01001
 		response.addCookie(cookie);
-
         response.getWriter().println(
 			"Created cookie: 'SomeCookie': with value: '"
 			+ org.owasp.esapi.ESAPI.encoder().encodeForHTML(str) + "' and secure flag set to: false"
 		);
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = org.springframework.web.util.HtmlUtils.htmlEscape(param);
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

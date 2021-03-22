@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-02/BenchmarkTest01162")
 public class BenchmarkTest01162 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01162 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -49,12 +44,10 @@ public class BenchmarkTest01162 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeaders() doesn't. Unlike req.getParameters().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
 		double value = java.lang.Math.random();
         String rememberMeKey = Double.toString(value).substring(2);  // Trim off the 0. at the front.
-
 		String user = "Doug";
 		String fullClassName = this.getClass().getName();
 		String testCaseNumber = fullClassName.substring(fullClassName.lastIndexOf('.')+1+"BenchmarkTest".length());
@@ -96,14 +89,10 @@ public class BenchmarkTest01162 extends HttpServlet {
 		response.getWriter().println(
 		"Weak Randomness Test java.lang.Math.random() executed"
 		);
-
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map72162 = new java.util.HashMap<String,Object>();
 		map72162.put("keyA-72162", "a_Value"); // put some stuff in the collection
@@ -111,9 +100,7 @@ public class BenchmarkTest01162 extends HttpServlet {
 		map72162.put("keyC", "another_Value"); // put some stuff in the collection
 		bar = (String)map72162.get("keyB-72162"); // get it back out
 		bar = (String)map72162.get("keyA-72162"); // get safe value back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/cmdi-01/BenchmarkTest00982")
 public class BenchmarkTest00982 extends HttpServlet {
 	
@@ -41,7 +37,6 @@ public class BenchmarkTest00982 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/cmdi-01/BenchmarkTest00982.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -57,7 +52,6 @@ public class BenchmarkTest00982 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = new Test().doSomething(request, param);
 		
 		String cmd = org.owasp.benchmark.helpers.Utils.getInsecureOSCommandString(this.getClass().getClassLoader());
@@ -65,7 +59,6 @@ public class BenchmarkTest00982 extends HttpServlet {
         String[] argsEnv = { bar };
         
 		Runtime r = Runtime.getRuntime();
-
 		try {
 			Process p = r.exec(args, argsEnv, new java.io.File(System.getProperty("user.dir")));
 			org.owasp.benchmark.helpers.Utils.printOSCommandResults(p, response);
@@ -77,12 +70,9 @@ public class BenchmarkTest00982 extends HttpServlet {
 			return;
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map20875 = new java.util.HashMap<String,Object>();
 		map20875.put("keyA-20875", "a_Value"); // put some stuff in the collection
@@ -90,9 +80,7 @@ public class BenchmarkTest00982 extends HttpServlet {
 		map20875.put("keyC", "another_Value"); // put some stuff in the collection
 		bar = (String)map20875.get("keyB-20875"); // get it back out
 		bar = (String)map20875.get("keyA-20875"); // get safe value back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

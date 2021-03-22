@@ -15,21 +15,16 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2016
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 public class CASTAIPReader extends Reader {
 	
 	public TestResults parse( File f ) throws Exception {
@@ -39,13 +34,10 @@ public class CASTAIPReader extends Reader {
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         InputSource is = new InputSource( new FileInputStream(f) );
         Document doc = docBuilder.parse(is);
-
         TestResults tr = new TestResults( "CAST AIP", true, TestResults.ToolType.SAST);
         Node root = doc.getDocumentElement();
-
 //      <?xml version="1.0" encoding="UTF-8"?>
 //      <CASTAIP version="8.2.3" timestamp="2017-09-18 11:55:12.312+00">
-
 //      Only start time available in XML, per above. No stop time
 //        String duration = getNamedChild("timestamp", root ).getTextContent();
 //        try {
@@ -81,15 +73,12 @@ public class CASTAIPReader extends Reader {
 // <violation beginline="39" endline="70" begincolumn="2" endcolumn="3" rule=" " ruleset="Secure Coding - Input Validation"
 // fullname="org.owasp.benchmark.testcode.BenchmarkTest00007.doPost" type="Java Method" critical="YES" >
 // Avoid OS command injection vulnerabilities ( CWE-78 )</violation></file>
-
 	private TestCaseResult parseCASTAIPIssue( Node flaw ) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
-
         // Get the violation description and if it doesn't contain a CWE #, then it's not 
         // relevant to Benchmark.
         String violation = getNamedChild("violation", flaw).getTextContent();
         if (!violation.contains("CWE-")) return null;
-
         // Get CWE #
         violation = violation.substring( violation.indexOf( "CWE-" ) + "CWE-".length() );
         violation = violation.substring( 0, violation.indexOf( ')' ) );
@@ -111,7 +100,6 @@ public class CASTAIPReader extends Reader {
         }
         return null;
     }
-
 	
 	private static int cweLookup( String name ) {
 	    if ( name == null || name.isEmpty() ) {
@@ -143,4 +131,3 @@ public class CASTAIPReader extends Reader {
 		return 0000;
 	}
 }
-

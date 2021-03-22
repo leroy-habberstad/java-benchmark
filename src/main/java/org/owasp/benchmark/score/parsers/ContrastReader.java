@@ -15,29 +15,22 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.json.JSONObject;
-
 public class ContrastReader extends Reader {
-
 	public static void main(String[] args) throws Exception {
 		File f = new File("results/Benchmark_1.2-Contrast.log");
 		ContrastReader cr = new ContrastReader();
 		cr.parse(f);
 	}
-
 	
 	public TestResults parse(File f) throws Exception {
 		TestResults tr = new TestResults("Contrast", true, TestResults.ToolType.IAST);
-
 		BufferedReader reader = new BufferedReader(new FileReader(f));
 		String firstLine = null;
 		String lastLine = "";
@@ -65,8 +58,6 @@ public class ContrastReader extends Reader {
 		tr.setTime(calculateTime(firstLine, lastLine));
 		return tr;
 	}
-
-
     private void parseContrastFinding(TestResults tr, String json) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
         
@@ -92,7 +83,6 @@ public class ContrastReader extends Reader {
             // e.printStackTrace();
         }
     }
-
     
 	private static int cweLookup(String rule) {
 		switch (rule) {
@@ -131,7 +121,6 @@ public class ContrastReader extends Reader {
 		}
 		return 0;
 	}
-
 	private String calculateTime(String firstLine, String lastLine) {
 		try {
 			String start = firstLine.split(" ")[1];
@@ -148,5 +137,4 @@ public class ContrastReader extends Reader {
 		}
 		return null;
 	}
-
 }

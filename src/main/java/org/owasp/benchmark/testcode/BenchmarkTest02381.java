@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-02/BenchmarkTest02381")
 public class BenchmarkTest02381 extends HttpServlet {
 	
@@ -35,20 +31,16 @@ public class BenchmarkTest02381 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		org.owasp.benchmark.helpers.SeparateClassRequest scr = new org.owasp.benchmark.helpers.SeparateClassRequest( request );
 		String param = scr.getTheParameter("BenchmarkTest02381");
 		if (param == null) param = "";
-
 		String bar = doSomething(request, param);
 		
 		String fileName = null;
 		java.io.FileOutputStream fos = null;
-
 		try {
 			// Create the file first so the test won't throw an exception if it doesn't exist.
 			// Note: Don't actually do this because this method signature could cause a tool to find THIS file constructor 
@@ -65,7 +57,6 @@ public class BenchmarkTest02381 extends HttpServlet {
 	        response.getWriter().println(
 			"Now ready to write to file: " + org.owasp.esapi.ESAPI.encoder().encodeForHTML(fileName)
 );
-
 		} catch (Exception e) {
 			System.out.println("Couldn't open FileOutputStream on file: '" + fileName + "'");
 //			System.out.println("File exception caught and swallowed: " + e.getMessage());
@@ -83,7 +74,6 @@ public class BenchmarkTest02381 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map75774 = new java.util.HashMap<String,Object>();
 		map75774.put("keyA-75774", "a_Value"); // put some stuff in the collection

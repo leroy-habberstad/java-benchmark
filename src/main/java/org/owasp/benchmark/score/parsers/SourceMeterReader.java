@@ -15,18 +15,12 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-
 import org.apache.commons.io.IOUtils;
-
 public class SourceMeterReader extends Reader {
-
-
     // Possible Cross-site Scripting Vulnerability:
     // Source: String getValue()
     // Sink: void println(String arg0)
@@ -35,12 +29,9 @@ public class SourceMeterReader extends Reader {
     // /home/istvan/owasp/ellenorzes/benchmark/src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00023.java(80):(80,33,81,51)[0]
     // /home/istvan/owasp/ellenorzes/benchmark/src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00023.java(80):(80,33,81,61)[0]
     // /home/istvan/owasp/ellenorzes/benchmark/src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00023.java(80):(80,4,81,62)[0]
-
     public TestResults parse(File fileToParse) throws Exception {
         TestResults tr = new TestResults("SourceMeter VulnerabilityHunter", true, TestResults.ToolType.SAST);
-
         List<String> sourceLines = IOUtils.readLines(new FileInputStream(fileToParse));
-
         String vuln = null;
         String file = null;
         boolean nextLine = false;
@@ -71,14 +62,11 @@ public class SourceMeterReader extends Reader {
         }
         return tr;
     }
-
     private TestCaseResult parseSourceMeterItem(String vuln, String file) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
-
         tcr.setCategory(vuln);
         tcr.setEvidence(file);
         tcr.setCWE(cweLookup(vuln));
-
         String testno = file.substring(file.length() - 5); // extract test number
         try {
             tcr.setNumber(Integer.parseInt(testno));
@@ -86,10 +74,8 @@ public class SourceMeterReader extends Reader {
         } catch (NumberFormatException e) {
             System.out.println("> Parse error " + file + ":: " + testno);
         }
-
         return null;
     }
-
     private static int cweLookup(String vuln) {
         switch (vuln) {
 //        case "insecure-cookie":
@@ -127,5 +113,4 @@ public class SourceMeterReader extends Reader {
         }
         return 0;
     }
-
 }

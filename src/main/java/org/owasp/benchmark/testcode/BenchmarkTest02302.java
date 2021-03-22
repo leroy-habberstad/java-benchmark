@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-02/BenchmarkTest02302")
 public class BenchmarkTest02302 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest02302 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = "";
 		boolean flag = true;
 		java.util.Enumeration<String> names = request.getParameterNames();
@@ -56,7 +50,6 @@ public class BenchmarkTest02302 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 		java.io.File fileTarget = new java.io.File(bar, "/Test.txt");
@@ -74,7 +67,6 @@ public class BenchmarkTest02302 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String bar = thing.doSomething(param);
 	

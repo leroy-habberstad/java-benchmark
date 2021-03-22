@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-05/BenchmarkTest02701")
 public class BenchmarkTest02701 extends HttpServlet {
 	
@@ -35,20 +31,16 @@ public class BenchmarkTest02701 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		org.owasp.benchmark.helpers.SeparateClassRequest scr = new org.owasp.benchmark.helpers.SeparateClassRequest( request );
 		String param = scr.getTheValue("BenchmarkTest02701");
-
 		String bar = doSomething(request, param);
 		
 		byte[] bytes = new byte[10];
 		new java.util.Random().nextBytes(bytes);
         String rememberMeKey = org.owasp.esapi.ESAPI.encoder().encodeForBase64(bytes, true);
-
 		String user = "Byron";
 		String fullClassName = this.getClass().getName();
 		String testCaseNumber = fullClassName.substring(fullClassName.lastIndexOf('.')+1+"BenchmarkTest".length());
@@ -87,7 +79,6 @@ public class BenchmarkTest02701 extends HttpServlet {
 					+ " whose value is: " + rememberMe.getValue() + "<br/>"
 			);
 		}
-
 		response.getWriter().println(
 		"Weak Randomness Test java.util.Random.nextBytes() executed"
 		);
@@ -95,7 +86,6 @@ public class BenchmarkTest02701 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		StringBuilder sbxyz86795 = new StringBuilder(param);
 		String bar = sbxyz86795.append("_SafeStuff").toString();
 	

@@ -15,38 +15,29 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2018
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 public class AppScanDynamicReader2 extends Reader {
 	
 	// This is the new AppScan Dynamnic reader, where they generate ".xml" files.
-
 	public TestResults parse( File f ) throws Exception {
-
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
 		docBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 		InputSource is = new InputSource( new FileInputStream(f) );
 		Document doc = docBuilder.parse(is);
-
 		Node root = doc.getDocumentElement();
 		Node scanInfo = getNamedChild( "scan-information", root );
 		TestResults tr = new TestResults( "IBM AppScan Dynamic", true, TestResults.ToolType.DAST);
-
 		// version is usually like 9.3.0 but sometimes like 9.3.0 iFix005. We trim off the part after the space char.
 		Node version = getNamedChild( "product-version", scanInfo );
 //    System.out.println("Product version is: " + version.getTextContent());
@@ -62,14 +53,12 @@ public class AppScanDynamicReader2 extends Reader {
 			
 			// First get the type of vuln, and if we don't care about that type, move on
 			String issueType = getNamedChild( "issue-type", vulnerability).getTextContent();
-
 			String url = getNamedChild( "name", vulnerability).getTextContent();
 			// to give DAST tools some credit, if they report a similar vuln in a different area, we count it.
 			// e.g., SQLi in the XPATHi tests. To do that, we have to pull out the vuln type from the URL.
 			String urlElements[] = url.split("/");
 			String testArea = urlElements[urlElements.length-2].split("-")[0]; //.split strips off the -##
 // System.out.println("Candidate test area is: " + testArea);
-
 			int vtype = cweLookup(issueType, testArea);
 //	System.out.println("Vuln type: " + issueType + " has CWE of: " + vtype);
 			
@@ -87,7 +76,6 @@ public class AppScanDynamicReader2 extends Reader {
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
-
 //				if (tn == -1) System.out.println("Found vuln outside of test case of type: " + issueType);
 			
 				// Add the vuln found in a test case to the results for this tool
@@ -96,7 +84,6 @@ public class AppScanDynamicReader2 extends Reader {
 				tcr.setCategory( issueType ); // TODO: Is this right?
 				tcr.setCWE( vtype );
 				tcr.setEvidence( issueType );
-
 				tr.put(tcr);
 			}
 		}
@@ -114,15 +101,12 @@ public class AppScanDynamicReader2 extends Reader {
         if ( secs.length() < 2 ) secs = "0" + secs;
 	    return hours + ":" + mins + ":" + secs;
     }
-
 	private static int cweLookup(String vtype, String testArea) {
 		int cwe = cweLookup(vtype);
 		if ("xpathi".equals(testArea) && cwe == 89) cwe = 643; // CWE for xpath injection
 		if ("ldapi".equals(testArea) && cwe == 89) cwe = 90; // CWE for xpath injection
-
 		return cwe;
 	}
-
 	private static int cweLookup(String vtype) {
 		switch( vtype ) {
 			case "attBlindSqlInjectionStrings" : return 89; // Score worse or better?
@@ -137,15 +121,12 @@ public class AppScanDynamicReader2 extends Reader {
 			case "bodyParamsInQuery" : return 00;
 			case "ContentSecurityPolicy" : return 00;
 			case "ContentTypeOptions" : return 00;
-
 //			case "GD_EmailAddress" : return 00;
 			case "GETParamOverSSL" : return 00;
 //			case "GV_SQLErr" : return 89; // Score worse or better with this or 00?
 //			case "HSTS" : return 00;
-
 			// Microsoft MHTML XSS - Giving AppScan 'credit' for this introduces ~2.4% False Positives and no real ones so I disabled it instead
 			case "MHTMLXSS" : return 00;
-
 //			case "OpenSource" : return 00;  // Known vuln in open source lib.
 //			case "phishingInFrames" : return 00;
 			case "SHA1CipherSuites" : return 327; // Better if set to 327?
@@ -155,9 +136,7 @@ public class AppScanDynamicReader2 extends Reader {
 //			case "XSSProtectionHeader" : return 00;
 			
 			default : 	System.out.println("Identified unknown type of: " + vtype);
-
 		}
 		return 0;
 	}
-
 }

@@ -15,9 +15,7 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 public class OverallResult {
 	public final String category;
 	public final double truePositiveRate;

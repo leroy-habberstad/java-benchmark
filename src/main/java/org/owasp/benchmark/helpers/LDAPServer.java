@@ -1,9 +1,7 @@
 package org.owasp.benchmark.helpers;
-
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
-
 import org.apache.directory.server.constants.ServerDNConstants;
 import org.apache.directory.server.core.DefaultDirectoryService;
 import org.apache.directory.server.core.DirectoryService;
@@ -24,26 +22,21 @@ import org.apache.directory.shared.ldap.schema.ldif.extractor.impl.DefaultSchema
 import org.apache.directory.shared.ldap.schema.loader.ldif.LdifSchemaLoader;
 import org.apache.directory.shared.ldap.schema.manager.impl.DefaultSchemaManager;
 import org.apache.directory.shared.ldap.schema.registries.SchemaLoader;
-
 public class LDAPServer {
 	/** The directory service */
 	private DirectoryService service;
-
 	/** The LDAP server */
 	private LdapServer server;
-
 	public LDAPServer() {
 		String dir = Utils.getFileFromClasspath("benchmark.properties", LDAPManager.class.getClassLoader()).getParent();
 		File workDir = new File(dir + "/../ldap");
 		workDir.mkdirs();
-
 		// Create the server
 		try {
 			initDirectoryService(workDir);
 		} catch (Exception e) {
 			System.out.println("Error creating LDAP Server: " + e.getMessage());
 		}
-
 		// Read an entry
 		Entry result = null;
 		try {
@@ -51,10 +44,8 @@ public class LDAPServer {
 		} catch (Exception e) {
 			System.out.println("Error creating LDAP Server: " + e.getMessage());
 		}
-
 		// And print it if available
 //		System.out.println("Found entry : " + result);
-
 		// optionally we can start a server too
 		try {
 			startServer();
@@ -67,24 +58,18 @@ public class LDAPServer {
 		ldapP.setName("foo");
 		ldapP.setPassword("MrFooPa$$word");
 		ldapP.setAddress("AddressForFoo #345");
-
 		emd.insert(ldapP);
-
 		ldapP = new LDAPPerson();
 		ldapP.setName("Ms Bar");
 		ldapP.setPassword("barM$B4dPass");
 		ldapP.setAddress("The streetz 4 Ms bar");
-
 		emd.insert(ldapP);
-
 		ldapP = new LDAPPerson();
 		ldapP.setName("Mr Unknown");
 		ldapP.setPassword("YouwontGue$$");
 		ldapP.setAddress("Whe home is #678");
-
 		emd.insert(ldapP);
 	}
-
 	/**
 	 * Initialize the server. It creates the partition, adds the index, and
 	 * injects the context entries for the created partitions.
@@ -102,10 +87,8 @@ public class LDAPServer {
 			System.out.println("Error creating DefaultDirectoryService. " + e1.getMessage());
 		}
 		service.setWorkingDirectory(workDir);
-
 		// first load the schema
 		initSchemaPartition();
-
 		// then the system partition
 		// this is a MANDATORY partition
 		Partition systemPartition = null;
@@ -115,11 +98,9 @@ public class LDAPServer {
 			System.out.println("Error addPartition system. " + e1.getMessage());
 		}
 		service.setSystemPartition(systemPartition);
-
 		// Disable the ChangeLog system
 		service.getChangeLog().setEnabled(false);
 		service.setDenormalizeOpAttrsEnabled(true);
-
 		// Now we can create as many partitions as we need
 		// Create some new partitions named 'foo', 'bar' and 'apache'.
 		Partition fooPartition = null;
@@ -140,7 +121,6 @@ public class LDAPServer {
 		} catch (Exception e1) {
 			System.out.println("Error addPartition apache. " + e1.getMessage());
 		}
-
 		// Index some attributes on the apache partition
 		addIndex(apachePartition, "objectClass", "ou", "uid");
 		try {
@@ -163,7 +143,6 @@ public class LDAPServer {
 				System.out.println("Error creating new DN.");
 			}
 		}
-
 		// Inject the bar root entry
 		try {
 			service.getAdminSession().lookup(barPartition.getSuffixDn());
@@ -178,7 +157,6 @@ public class LDAPServer {
 				System.out.println("Error creating new DN.");
 			}
 		}
-
 		// Inject the apache root entry
 		try {
 			if (!service.getAdminSession().exists(apachePartition.getSuffixDn())) {
@@ -195,9 +173,7 @@ public class LDAPServer {
 		} catch (Exception e) {
 			System.out.println("Error when checking if partition exists.");
 		}
-
 	}
-
 	/**
 	 * initialize the schema manager and add the schema partition to diectory
 	 * service
@@ -207,12 +183,10 @@ public class LDAPServer {
 	 */
 	private void initSchemaPartition() {
 		SchemaPartition schemaPartition = service.getSchemaService().getSchemaPartition();
-
 		// Init the LdifPartition
 		LdifPartition ldifPartition = new LdifPartition();
 		String workingDirectory = service.getWorkingDirectory().getPath();
 		ldifPartition.setWorkingDirectory(workingDirectory + "/schema");
-
 		// Extract the schema on disk (a brand new one) and load the registries
 		File schemaRepository = new File(workingDirectory, "schema");
 		File wd = new File(workingDirectory);
@@ -228,23 +202,18 @@ public class LDAPServer {
 			SchemaLoader loader = new LdifSchemaLoader(schemaRepository);
 			SchemaManager schemaManager = new DefaultSchemaManager(loader);
 			service.setSchemaManager(schemaManager);
-
 			// We have to load the schema now, otherwise we won't be able
 			// to initialize the Partitions, as we won't be able to parse
 			// and normalize their suffix DN
 			schemaManager.loadAllEnabled();
-
 			schemaPartition.setSchemaManager(schemaManager);
-
 			List<Throwable> errors = schemaManager.getErrors();
-
 			if (errors.size() != 0) {
 				throw new Exception("Schema load failed : " + errors);
 			}
 		} catch (Exception e) {
 		}
 	}
-
 	/**
 	 * Add a new partition to the server
 	 *
@@ -263,10 +232,8 @@ public class LDAPServer {
 		partition.setPartitionDir(new File(service.getWorkingDirectory(), partitionId));
 		partition.setSuffix(partitionDn);
 		service.addPartition(partition);
-
 		return partition;
 	}
-
 	/**
 	 * Add a new set of index on the given attributes
 	 *
@@ -278,14 +245,11 @@ public class LDAPServer {
 	private void addIndex(Partition partition, String... attrs) {
 		// Index some attributes on the apache partition
 		HashSet<Index<?, ServerEntry, Long>> indexedAttributes = new HashSet<Index<?, ServerEntry, Long>>();
-
 		for (String attribute : attrs) {
 			indexedAttributes.add(new JdbmIndex<String, ServerEntry>(attribute));
 		}
-
 		((JdbmPartition) partition).setIndexedAttributes(indexedAttributes);
 	}
-
 	/**
 	 * starts the LdapServer
 	 *
@@ -296,10 +260,8 @@ public class LDAPServer {
 		int serverPort = 10389;
 		server.setTransports(new TcpTransport(serverPort));
 		server.setDirectoryService(service);
-
 		server.start();
 	}
-
 	public void stopServer() throws Exception {
 		if (server != null) {
 			server.stop();
@@ -320,5 +282,4 @@ public class LDAPServer {
 		LDAPServer ldap = new LDAPServer();
 		//ldap.stopServer();
 	}
-
 }

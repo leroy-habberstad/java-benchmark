@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-05/BenchmarkTest02257")
 public class BenchmarkTest02257 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest02257 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		java.util.Map<String,String[]> map = request.getParameterMap();
 		String param = "";
 		if (!map.isEmpty()) {
@@ -47,7 +41,6 @@ public class BenchmarkTest02257 extends HttpServlet {
 			if (values != null) param = values[0];
 		}
 		
-
 		String bar = doSomething(request, param);
 		
 		try {
@@ -74,7 +67,6 @@ public class BenchmarkTest02257 extends HttpServlet {
 					}
 				}
 			}
-
 			
 			if (foundUser) {
 				response.getWriter().println(
@@ -105,7 +97,6 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String bar = thing.doSomething(param);
 	

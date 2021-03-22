@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-00/BenchmarkTest00616")
 public class BenchmarkTest00616 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest00616 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -53,7 +48,6 @@ public class BenchmarkTest00616 extends HttpServlet {
 		    benchmarkprops.load(this.getClass().getClassLoader().getResourceAsStream("benchmark.properties"));
 			String algorithm = benchmarkprops.getProperty("cryptoAlg1", "DESede/ECB/PKCS5Padding");
 			javax.crypto.Cipher c = javax.crypto.Cipher.getInstance(algorithm);
-
             // Prepare the cipher to encrypt
             javax.crypto.SecretKey key = javax.crypto.KeyGenerator.getInstance("DES").generateKey();
             c.init(javax.crypto.Cipher.ENCRYPT_MODE, key);
@@ -83,7 +77,6 @@ public class BenchmarkTest00616 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 			
 		} catch (java.security.NoSuchAlgorithmException e) {
 			response.getWriter().println(
@@ -116,7 +109,6 @@ e.printStackTrace(response.getWriter());
 e.printStackTrace(response.getWriter());
 			throw new ServletException(e);
 		}
-
 		response.getWriter().println(
 "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String) executed"
 );

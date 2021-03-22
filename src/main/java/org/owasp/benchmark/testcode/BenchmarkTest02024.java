@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-02/BenchmarkTest02024")
 public class BenchmarkTest02024 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest02024 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = "";
 		java.util.Enumeration<String> headers = request.getHeaders("BenchmarkTest02024");
 		
@@ -49,7 +43,6 @@ public class BenchmarkTest02024 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeaders() doesn't. Unlike req.getParameters().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = doSomething(request, param);
 		
 		// Code based on example from:
@@ -67,7 +60,6 @@ public class BenchmarkTest02024 extends HttpServlet {
 		    benchmarkprops.load(this.getClass().getClassLoader().getResourceAsStream("benchmark.properties"));
 			String algorithm = benchmarkprops.getProperty("cryptoAlg2", "AES/ECB/PKCS5Padding");
 			javax.crypto.Cipher c = javax.crypto.Cipher.getInstance(algorithm);
-
             // Prepare the cipher to encrypt
             javax.crypto.SecretKey key = javax.crypto.KeyGenerator.getInstance("DESede").generateKey();
 //            java.security.spec.AlgorithmParameterSpec paramSpec = new javax.crypto.spec.IvParameterSpec(iv);
@@ -99,7 +91,6 @@ public class BenchmarkTest02024 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 			
 		} catch (java.security.NoSuchAlgorithmException e) {
 			response.getWriter().println(
@@ -146,7 +137,6 @@ e.printStackTrace(response.getWriter());
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "";
 		if (param != null) bar = param.split(" ")[0];
 	

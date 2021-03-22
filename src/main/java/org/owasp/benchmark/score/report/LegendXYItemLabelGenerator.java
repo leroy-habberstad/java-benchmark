@@ -15,25 +15,20 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.report;
-
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.labels.StandardXYItemLabelGenerator;
 import org.jfree.chart.labels.XYItemLabelGenerator;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.util.PublicCloneable;
-
 public class LegendXYItemLabelGenerator extends StandardXYItemLabelGenerator
 		implements XYItemLabelGenerator, Cloneable, PublicCloneable {
 	private LegendItemCollection legendItems;
-
 	public LegendXYItemLabelGenerator(LegendItemCollection legendItems) {
 		super();
 		this.legendItems = legendItems;
 	}
-
 	@Override
 	public String generateLabel(XYDataset dataset, int series, int item) {
 		LegendItem legendItem = legendItems.get(item);

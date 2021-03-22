@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/cmdi-01/BenchmarkTest01269")
 public class BenchmarkTest01269 extends HttpServlet {
 	
@@ -35,14 +31,12 @@ public class BenchmarkTest01269 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	
 		String param = request.getParameter("BenchmarkTest01269");
 		if (param == null) param = "";
-
 		String bar = new Test().doSomething(request, param);
 		
 		String a1 = "";
@@ -56,9 +50,7 @@ public class BenchmarkTest01269 extends HttpServlet {
         	a2 = "-c";
         }
         String[] args = {a1, a2, "echo " + bar};
-
 		ProcessBuilder pb = new ProcessBuilder();
-
 		pb.command(args);
 		
 		try {
@@ -69,12 +61,9 @@ public class BenchmarkTest01269 extends HttpServlet {
             throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar;
 		
 		// Simple if statement that assigns constant to bar on true condition
@@ -82,9 +71,7 @@ public class BenchmarkTest01269 extends HttpServlet {
 		if ( (7*42) - num > 200 )
 		   bar = "This_should_always_happen"; 
 		else bar = param;
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

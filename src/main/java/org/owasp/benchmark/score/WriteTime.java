@@ -1,5 +1,4 @@
 package org.owasp.benchmark.score;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,10 +10,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -24,7 +21,6 @@ import org.owasp.benchmark.score.parsers.Reader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 public class WriteTime {
 	public static void main(String[] args) throws Exception {
 		// findbugs
@@ -51,14 +47,12 @@ public class WriteTime {
 			toolName = args[0];
 		}
 		//System.out.println("Tool: " + toolName);
-
 		PropertiesManager propM = new PropertiesManager();
 		WriteFiles wf = new WriteFiles();
 		if (toolName.contains("sonar")) { // We need to generate the results
 			// file from the webService
 			wf.writeSonarResults();
 		}
-
 		switch (toolName) {
 			case "crawler":
 				csvToolName = "exec-maven-plugin:java";
@@ -79,20 +73,16 @@ public class WriteTime {
 					+ " is not one of the supported tools for mvn validate -Ptime, provided by score/WriteTime.java");
 				return;
 		}
-
 		propM.saveProperty(toolName, wf.getToolTime(csvToolName));
 		propM.saveProperty("benchmark-version", wf.getbenchmarkVersion()); //
 		// propM.displayProperties();
-
 		wf.deletePreviousResults(toolName, wf.getVersionNumber(toolName),
 				propM.getProperty("benchmark-version", ""));
-
 		wf.resultsFileName(toolName,
 				propM.getProperty("benchmark-version", ""),
 				propM.getProperty(toolName, ""), wf.getVersionNumber(toolName));
 	}
 }
-
 class WriteFiles {
 	private static final String USER_AGENT = "Mozilla/5.0";
 	private static final String CSV_TIMES_FILE = "out.csv";
@@ -102,7 +92,6 @@ class WriteFiles {
 	private static final String PMD_FILE = "target/pmd.xml";
 	private static final String SONAR_FILE = "target/sonarqube.xml";
 	private static final String SPOTBUGS_FILE = "target/spotbugsXml.xml";
-
 	public String getVersionNumber(String toolName) {
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -112,9 +101,7 @@ class WriteFiles {
 			InputSource is = null;
 			Document doc = null;
 			Node root = null;
-
 			File findbugsFile = new File(FINDBUGS_FILE); // default
-
 			switch (toolName) {
 				case "spotbugs":
 					findbugsFile = new File(SPOTBUGS_FILE);
@@ -142,7 +129,6 @@ class WriteFiles {
 		}
 		return "";
 	}
-
 	public static String getLine(File file, String toFind, boolean nextLine) {
 		BufferedReader br = null;
 		try {
@@ -175,21 +161,17 @@ class WriteFiles {
 		}
 		return "";
 	}
-
 	public static void listPathFiles(String path) {
 		String files;
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
-
 		for (int i = 0; i < listOfFiles.length; i++) {
-
 			if (listOfFiles[i].isFile()) {
 				files = listOfFiles[i].getName();
 				System.out.println(files);
 			}
 		}
 	}
-
 	public void deletePreviousResults(String toolName, String toolVersion,
 			String benchmarkVersion) {
 		if (!toolName.equals("")) {
@@ -209,18 +191,15 @@ class WriteFiles {
 			}
 		}
 	}
-
 	public void resultsFileName(String tool, String benchmarkVersion,
 			String times, String toolVersion) {
 		String name = "results/Benchmark_" + benchmarkVersion + "-" + tool
 				+ "-v" + toolVersion + "-" + times + ".xml";
 		File file = null;
-
 		File targetDir = new File("results/");
 		if (!targetDir.exists()) {
 			targetDir.mkdir();
 		}
-
 		// System.out.println("inside results file: "+tool);
 		switch (tool) {
 			case "findbugs":
@@ -256,28 +235,22 @@ class WriteFiles {
 				break;
 		}
 	}
-
 	public void writeSonarResults() {
-
 		int page = 1;
 		int total = 1;
 		JSONArray issues = new JSONArray();
 		JSONObject json = null;
-
 		try {
 			while (issues.length() < total) {
 				json = new JSONObject(getSonarResults("http://localhost:9000", page));
 				total = (int) json.get("total");
-
 				JSONArray issueSubset = json.getJSONArray("issues");
 				for (int i = 0; i < issueSubset.length(); i++) {
 					issues.put(issueSubset.get(i));
 				}
 				page++;
 			}
-
 			json.put("issues", issues);
-
 			String xml = XML.toString(json);
 			java.io.FileWriter fw = new java.io.FileWriter(SONAR_FILE);
 			fw.write(xml);
@@ -286,7 +259,6 @@ class WriteFiles {
 			System.out.println("There was an error while writing SonarQube results.");
 		}
 	}
-
 	public static String getSonarResults(String sonarURL, int page) {
 		StringBuffer response = new StringBuffer();
 		try {
@@ -295,11 +267,9 @@ class WriteFiles {
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", USER_AGENT);
-
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					con.getInputStream()));
 			String inputLine;
-
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
@@ -309,7 +279,6 @@ class WriteFiles {
 		}
 		return response.toString();
 	}
-
 	public String getToolTime(String toolName) {
 		String[] results = new String[3];
 		String time = null;
@@ -325,7 +294,6 @@ class WriteFiles {
 		}
 		return "";
 	}
-
 	/**
 	 * Gets the current version of the Benchmark from the benchmark.properties file.
 	 * @return The version # (as a String). An empty string if its not defined in that file.
@@ -349,7 +317,6 @@ class WriteFiles {
 	private String getFindFile(String path, String name) {
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
-
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile() && listOfFiles[i].getName().startsWith(name)) {
 				return listOfFiles[i].getName();
@@ -357,5 +324,4 @@ class WriteFiles {
 		}
 		return "";
 	}
-
 }

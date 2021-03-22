@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/hash-00/BenchmarkTest00003")
 public class BenchmarkTest00003 extends HttpServlet {
 	
@@ -41,13 +37,11 @@ public class BenchmarkTest00003 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/hash-00/BenchmarkTest00003.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// some code
 		response.setContentType("text/html;charset=UTF-8");
 		
-
 		javax.servlet.http.Cookie[] theCookies = request.getCookies();
 		
 		String param = "noCookieValueSupplied";
@@ -59,7 +53,6 @@ public class BenchmarkTest00003 extends HttpServlet {
 				}
 			}
 		}
-
 		
 		try {
 		    java.util.Properties benchmarkprops = new java.util.Properties();
@@ -91,7 +84,6 @@ public class BenchmarkTest00003 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' hashed and stored<br/>"
 );
-
 		} catch (java.security.NoSuchAlgorithmException e) {
 			System.out.println("Problem executing hash - TestCase");
 			throw new ServletException(e);

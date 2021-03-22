@@ -1,12 +1,9 @@
 package org.owasp.benchmark.service.pojo;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 @XmlRootElement(name = "person")
 public class Person {
-
     private long id;
     private String address;
     private String name;
@@ -19,7 +16,6 @@ public class Person {
         this.name = name;
         this.address = address;
     }
-
     public long getId() {
         return id;
     }
@@ -27,7 +23,6 @@ public class Person {
     public String getAddress() {
         return address;
     }
-
     @XmlAttribute
 	public void setId(long id) {
 		this.id = id;
@@ -37,25 +32,20 @@ public class Person {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	@XmlElement
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getLastName() {
 		return lastName;
 	}
-
 	@XmlElement
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", address=" + address + ", name=" + name + ", lastName=" + lastName + "]";

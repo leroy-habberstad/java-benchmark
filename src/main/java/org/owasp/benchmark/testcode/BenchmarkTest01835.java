@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-02/BenchmarkTest01835")
 public class BenchmarkTest01835 extends HttpServlet {
 	
@@ -41,11 +37,9 @@ public class BenchmarkTest01835 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/pathtraver-02/BenchmarkTest01835.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		javax.servlet.http.Cookie[] theCookies = request.getCookies();
 		
 		String param = "noCookieValueSupplied";
@@ -57,7 +51,6 @@ public class BenchmarkTest01835 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 		java.io.File fileTarget = new java.io.File(org.owasp.benchmark.helpers.Utils.testfileDir, bar);
@@ -75,7 +68,6 @@ public class BenchmarkTest01835 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar;
 		
 		// Simple if statement that assigns param to bar on true condition

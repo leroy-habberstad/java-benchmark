@@ -15,14 +15,10 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.report;
-
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.JFrame;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -30,21 +26,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.TextAnchor;
-
 public class ScatterInterpretation extends ScatterPlot {
-
     public ScatterInterpretation( int height ) {
         display("          OWASP Benchmark Results Interpretation Guide", height);
     }
-
     private JFreeChart display(String title, int height ) {
         JFrame f = new JFrame(title);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         XYSeriesCollection dataset = new XYSeriesCollection();
         chart = ChartFactory.createScatterPlot(title, "False Positive Rate", "True Positive Rate", dataset, PlotOrientation.VERTICAL, true, true, false);
         theme.apply(chart);
-
         XYPlot xyplot = chart.getXYPlot();
         initializePlot( xyplot );
         
@@ -67,7 +58,6 @@ public class ScatterInterpretation extends ScatterPlot {
         // f.setVisible(true);
         return chart;
     }
-
     public static void main(String[] args) throws IOException {
         ScatterInterpretation scatter = new ScatterInterpretation( 800 );
         scatter.writeChartToFile(new File("benchmark_guide.png"), 800 );

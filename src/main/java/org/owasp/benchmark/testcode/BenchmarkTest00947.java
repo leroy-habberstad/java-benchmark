@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/ldapi-00/BenchmarkTest00947")
 public class BenchmarkTest00947 extends HttpServlet {
 	
@@ -41,7 +37,6 @@ public class BenchmarkTest00947 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/ldapi-00/BenchmarkTest00947.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -57,7 +52,6 @@ public class BenchmarkTest00947 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = new Test().doSomething(request, param);
 		
 	org.owasp.benchmark.helpers.LDAPManager ads = new org.owasp.benchmark.helpers.LDAPManager();
@@ -74,7 +68,6 @@ public class BenchmarkTest00947 extends HttpServlet {
 			while (results.hasMore()) {
 				javax.naming.directory.SearchResult sr = (javax.naming.directory.SearchResult) results.next();
 				javax.naming.directory.Attributes attrs = sr.getAttributes();
-
 				javax.naming.directory.Attribute attr = attrs.get("uid");
 				javax.naming.directory.Attribute attr2 = attrs.get("street");
 				if (attr != null){
@@ -98,17 +91,12 @@ public class BenchmarkTest00947 extends HttpServlet {
 		}
     }
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String bar = thing.doSomething(param);
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

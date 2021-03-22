@@ -15,26 +15,19 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2016
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class NetsparkerReader extends Reader {
 	
 	public TestResults parse( Node root ) throws Exception {
         TestResults tr = new TestResults( "Netsparker", true, TestResults.ToolType.DAST);
-
         Node target = getNamedChild( "target", root );
-
 //        <target>
 //            <url>https://localhost:8443/benchmark/</url>
 //            <scantime>211116</scantime>
 //        </target>
-
         String duration = getNamedChild("scantime", target ).getTextContent();
         try {
             long millis = Long.parseLong(duration);
@@ -85,15 +78,11 @@ public class NetsparkerReader extends Reader {
 //    </classification>
 //
 //</vulnerability>
-
 	private TestCaseResult parseNetsparkerIssue( Node flaw ) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
-
         String type = getNamedChild("type", flaw).getTextContent();
         tcr.setCategory( type );
-
         String severity = getNamedChild( "severity", flaw ).getTextContent();
-
         String confidence = getNamedChild( "certainty", flaw ).getTextContent();
         tcr.setConfidence( Integer.parseInt(confidence) );
         
@@ -101,10 +90,8 @@ public class NetsparkerReader extends Reader {
         Node info = getNamedChild("info", extra);
         String evidence = getAttributeValue("name", info);
         tcr.setEvidence( severity + "::" + evidence );
-
 //        <severity>Low</severity>
 //        <certainty>90</certainty>
-
         Node classification = getNamedChild("classification", flaw);
         // Note: not all vulnerabilities have CWEs in Netsparker
         if ( classification != null ) {
@@ -136,7 +123,6 @@ public class NetsparkerReader extends Reader {
         }
         return null;
     }
-
 	
 	private static int cweLookup( String cweNum ) {
 	    if ( cweNum == null || cweNum.isEmpty() ) {
@@ -165,4 +151,3 @@ public class NetsparkerReader extends Reader {
 		return cwe;
 	}
 }
-

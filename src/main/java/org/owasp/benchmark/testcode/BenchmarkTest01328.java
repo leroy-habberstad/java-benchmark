@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-01/BenchmarkTest01328")
 public class BenchmarkTest01328 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01328 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -47,7 +42,6 @@ public class BenchmarkTest01328 extends HttpServlet {
 			if (values != null) param = values[0];
 		}
 		
-
 		String bar = new Test().doSomething(request, param);
 		
 		// FILE URIs are tricky because they are different between Mac and Windows because of lack of standardization.
@@ -57,7 +51,6 @@ public class BenchmarkTest01328 extends HttpServlet {
 	        if (System.getProperty("os.name").indexOf("Windows") != -1)
 	        	startURIslashes = "/";
 	        else startURIslashes = "//";
-
 		try {
 			java.net.URI fileURI = new java.net.URI("file:" + startURIslashes 
 				+ org.owasp.benchmark.helpers.Utils.testfileDir.replace('\\', '/').replace(' ', '_') + bar);
@@ -76,12 +69,9 @@ public class BenchmarkTest01328 extends HttpServlet {
 			throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a17973 = param; //assign
 		StringBuilder b17973 = new StringBuilder(a17973);  // stick in stringbuilder
@@ -97,9 +87,7 @@ public class BenchmarkTest01328 extends HttpServlet {
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String g17973 = "barbarians_at_the_gate";  // This is static so this whole flow is 'safe'
 		String bar = thing.doSomething(g17973); // reflection
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

@@ -15,20 +15,14 @@
  * @author Christian Lopez <a href="https://www.qualys.com/">Qualys</a>
  * @created 2019
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class QualysWASReader extends Reader {
     
     public TestResults parse(Node root) throws Exception {
-
         TestResults tr = new TestResults("Qualys WAS", true, TestResults.ToolType.DAST);
-
         // <APPENDIX>
         //     <SCAN_LIST>
         //         <SCAN>
@@ -47,14 +41,11 @@ public class QualysWASReader extends Reader {
         //             <AUTHENTICATION_STATUS>No Authentication specified</AUTHENTICATION_STATUS>
         //         </SCAN>
         //     </SCAN_LIST>
-
         List<Node> appendix = getNamedChildren("APPENDIX", root);
         List<Node> scanList = getNamedChildren("SCAN_LIST", appendix);
         List<Node> scan = getNamedChildren( "SCAN", scanList);
-
         String version = getNamedChild("PROFILE", scan.get(0)).getTextContent();  // There is only one (1) node
         tr.setToolVersion(version);
-
         // <VULNERABILITY>
         //     <ID>79308561</ID>
         //     <DETECTION_ID>2229440</DETECTION_ID>
@@ -79,11 +70,9 @@ public class QualysWASReader extends Reader {
         //     </PAYLOADS>
         //     <IGNORED>false</IGNORED>
         // </VULNERABILITY>
-
         List<Node> resultsList = getNamedChildren( "RESULTS", root );
         List<Node> vulnerabilityList = getNamedChildren( "VULNERABILITY_LIST", resultsList );
         List<Node> issueList = getNamedChildren( "VULNERABILITY", vulnerabilityList );
-
         for (Node issue : issueList) {
             TestCaseResult tcr = parseQualysVulnerability(issue);
             if (tcr != null) {
@@ -92,25 +81,19 @@ public class QualysWASReader extends Reader {
         }
         return tr;
     }
-
     private TestCaseResult parseQualysVulnerability(Node issue) {
         TestCaseResult tcr = new TestCaseResult();
         String cwe = getNamedChild("QID", issue).getTextContent();
         tcr.setCWE(translate_cwe(cwe));
-
         String name = getNamedChild("QID", issue).getTextContent();
         tcr.setCategory(translate_name(name));
         tcr.setEvidence(translate_name(name));
-
         String testcase = getNamedChild("URL", issue).getTextContent();
-
         // <URL>https://localhost:8443/benchmark/weakrand-04/BenchmarkTest02012</URL>
         // <URL><![CDATA[https://localhost:8443/benchmark/cmdi-00/BenchmarkTest00815?username=John&password=password&BenchmarkTest00815=(23.0231*213.759)]]></URL>
-
         testcase = testcase.substring(testcase.lastIndexOf('/') + 1);
         testcase = testcase.split("\\.")[0];
         testcase = testcase.split("\\?")[0];
-
         if (testcase.startsWith(BenchmarkScore.BENCHMARKTESTNAME)) {
             String testno = testcase.substring(BenchmarkScore.BENCHMARKTESTNAME.length() );
             try {
@@ -122,7 +105,6 @@ public class QualysWASReader extends Reader {
         }
         return null;
     }
-
     private int translate_cwe(String id) {
         switch (id) {
             case "150001": return 79;	// Reflected Cross-Site Scripting (XSS) Vulnerabilities
@@ -166,10 +148,8 @@ public class QualysWASReader extends Reader {
         System.out.println("Unknown id: " + id);
         return -1;
     }
-
     // Qualys does not provide the NAME of the vulnerabilities in the VULNERABILITY node. These are available in <QID_LIST> node.
     // TODO: instead of adding the titles in the translate_name(), parse the <QID_LIST> node to get that information.
-
     private String translate_name(String id) {
         switch (id) {
             case "150001": return "Reflected Cross-Site Scripting (XSS) Vulnerabilities";
@@ -212,5 +192,4 @@ public class QualysWASReader extends Reader {
         System.out.println("Unknown id: " + id);
         return id;
     }
-
 }

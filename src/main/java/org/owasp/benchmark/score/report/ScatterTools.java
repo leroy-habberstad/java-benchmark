@@ -15,9 +15,7 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.report;
-
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.io.File;
@@ -26,9 +24,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
 import javax.swing.JFrame;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -40,20 +36,15 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.TextAnchor;
 import org.owasp.benchmark.score.parsers.OverallResult;
 import org.owasp.benchmark.score.parsers.OverallResults;
-
 public class ScatterTools extends ScatterPlot {
 	public char averageLabel;
 	public double atpr, afpr;
-
 	public ScatterTools(String title, int height, OverallResults or) {
 		display("          " + title, height, or);
 	}
-
 	private JFreeChart display(String title, int height, OverallResults or) {
-
 		JFrame f = new JFrame(title);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		XYSeriesCollection dataset = new XYSeriesCollection();
 		XYSeries series = new XYSeries("Scores");
 		int totalTools = 0;
@@ -73,23 +64,19 @@ public class ScatterTools extends ScatterPlot {
 		}
 		
 		dataset.addSeries(series);
-
 		chart = ChartFactory.createScatterPlot(title, "False Positive Rate", "True Positive Rate", dataset, PlotOrientation.VERTICAL, true, true, false);
         theme.apply(chart);
-
 		XYPlot xyplot = chart.getXYPlot();
 		
 		initializePlot( xyplot );
 		
 		makeDataLabels(or, xyplot);
         makeLegend( or, 103, 93, dataset, xyplot );
-
 		XYTextAnnotation time = new XYTextAnnotation("Tool run time: " + or.getTime(), 12, -5.6);
 		time.setTextAnchor(TextAnchor.TOP_LEFT);
 		time.setFont(theme.getRegularFont());
 		time.setPaint(Color.red);
 		xyplot.addAnnotation(time);
-
 		ChartPanel cp = new ChartPanel(chart, height, height, 400, 400, 1200, 1200, false, false, false, false, false, false);
 		f.add(cp);
 		f.pack();
@@ -97,7 +84,6 @@ public class ScatterTools extends ScatterPlot {
 		// f.setVisible(true);
 		return chart;
 	}
-
 	private void makeDataLabels(OverallResults or, XYPlot xyplot) {
 		HashMap<Point2D, String> map = makePointList(or);
 		for (Entry<Point2D, String> e : map.entrySet()) {
@@ -118,7 +104,6 @@ public class ScatterTools extends ScatterPlot {
 			}
 		}
 	}
-
 	private String sort(String value) {
 		String[] parts = value.split(",");
 		Arrays.sort(parts);
@@ -130,9 +115,7 @@ public class ScatterTools extends ScatterPlot {
 		}
 		return sb.toString();
 	}
-
 	SecureRandom sr = new SecureRandom();
-
 	private HashMap<Point2D, String> makePointList(OverallResults or) {
 		HashMap<Point2D, String> map = new HashMap<Point2D, String>();
 		char ch = ScatterHome.INITIAL_LABEL;
@@ -162,7 +145,6 @@ public class ScatterTools extends ScatterPlot {
 		dedupify(map);
 		return map;
 	}
-
 	private void dedupify(HashMap<Point2D, String> map) {
 		for (Entry<Point2D, String> e1 : map.entrySet()) {
 			Entry<Point2D, String> e2 = getMatch(map, e1);
@@ -180,7 +162,6 @@ public class ScatterTools extends ScatterPlot {
 			}
 		}
 	}
-
 	private Entry<Point2D, String> getMatch(HashMap<Point2D, String> map, Entry<Point2D, String> e1) {
 		for (Entry<Point2D, String> e2 : map.entrySet()) {
 			Double xd = Math.abs(e1.getKey().getX() - e2.getKey().getX());
@@ -192,7 +173,6 @@ public class ScatterTools extends ScatterPlot {
 		}
 		return null;
 	}
-
 	private void makeLegend(OverallResults or, double x, double y, XYSeriesCollection dataset, XYPlot xyplot) {
 		char ch = ScatterHome.INITIAL_LABEL;
 		int i = 0;
@@ -224,24 +204,19 @@ public class ScatterTools extends ScatterPlot {
     		stroketext.setPaint(Color.magenta);
     		stroketext.setFont(theme.getRegularFont());
     		xyplot.addAnnotation(stroketext);
-
     		Point2D averagePoint = new Point2D.Double( afpr*100, atpr*100 );
             makePoint(xyplot, averagePoint, 3, Color.magenta );
 		}
 	}
-
 	public static void main(String[] args) throws IOException {
 		OverallResults or = new OverallResults();
 		or.add("XSS1", .62, .2, 12, 5);
 		or.add("XSS2", .64, .2, 12, 5);
-
 		or.add("XSS25", .5, .3, 12, 5);
 		or.add("XSS26", .5, .3, 12, 5);
-
 		or.add("XSS31", .34, .2, 12, 5);
 		or.add("XSS32", .36, .2, 12, 5);
 		or.add("XSS33", .38, .2, 12, 5);
-
 		or.add("XSS4", .72, .22, 12, 5);
 		or.add("XSS5", .72, .18, 12, 5);
 		or.add("XSS6", .28, .19, 12, 5);

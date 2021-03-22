@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-04/BenchmarkTest01961")
 public class BenchmarkTest01961 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest01961 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = "";
 		if (request.getHeader("BenchmarkTest01961") != null) {
 			param = request.getHeader("BenchmarkTest01961");
@@ -47,7 +41,6 @@ public class BenchmarkTest01961 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = doSomething(request, param);
 		
 		String sql = "SELECT * from USERS where USERNAME=? and PASSWORD='"+ bar +"'";
@@ -72,7 +65,6 @@ public class BenchmarkTest01961 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a99523 = param; //assign
 		StringBuilder b99523 = new StringBuilder(a99523);  // stick in stringbuilder

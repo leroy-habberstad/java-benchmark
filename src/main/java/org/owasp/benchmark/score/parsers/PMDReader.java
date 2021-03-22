@@ -15,22 +15,17 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 public class PMDReader extends Reader {
 	
 	public TestResults parse( File f ) throws Exception {
@@ -45,7 +40,6 @@ public class PMDReader extends Reader {
 		
 		// If the filename includes an elapsed time in seconds (e.g., TOOLNAME-seconds.xml), set the compute time on the scorecard.
 		tr.setTime(f);
-
 		Node root = doc.getDocumentElement();
 		String version = getAttributeValue( "version", root );
         tr.setToolVersion( version );
@@ -107,9 +101,7 @@ public class PMDReader extends Reader {
 		
 		default : System.out.println( "Unknown category: " + rule );
 		}
-
 		return 0;
 		
 	}
-
 }

@@ -15,9 +15,7 @@
 * @author Juan Gama <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.helpers;
-
 public class LDAPPerson {
 	private String name;
 	private String address;

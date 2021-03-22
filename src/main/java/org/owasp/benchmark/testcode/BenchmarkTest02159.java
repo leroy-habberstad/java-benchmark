@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-05/BenchmarkTest02159")
 public class BenchmarkTest02159 extends HttpServlet {
 	
@@ -35,14 +31,11 @@ public class BenchmarkTest02159 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = request.getParameter("BenchmarkTest02159");
 		if (param == null) param = "";
-
 		String bar = doSomething(request, param);
 		
 		try {
@@ -69,7 +62,6 @@ public class BenchmarkTest02159 extends HttpServlet {
 					}
 				}
 			}
-
 			
 			if (foundUser) {
 				response.getWriter().println(
@@ -100,7 +92,6 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a66015 = param; //assign
 		StringBuilder b66015 = new StringBuilder(a66015);  // stick in stringbuilder

@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-03/BenchmarkTest01369")
 public class BenchmarkTest01369 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01369 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -47,7 +42,6 @@ public class BenchmarkTest01369 extends HttpServlet {
 			if (values != null) param = values[0];
 		}
 		
-
 		String bar = new Test().doSomething(request, param);
 		
 	    try {
@@ -78,7 +72,6 @@ public class BenchmarkTest01369 extends HttpServlet {
 					}
 				}
 			}
-
 			
 			if (foundUser) {
 				response.getWriter().println(
@@ -106,15 +99,12 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 );
 	    }
 	}  // end doPost
-
 	void getNextNumber(java.util.Random generator, byte[] barray) {
 		generator.nextBytes(barray);
 	}
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a43860 = param; //assign
 		StringBuilder b43860 = new StringBuilder(a43860);  // stick in stringbuilder
@@ -129,9 +119,7 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 		String f43860 = e43860.split(" ")[0]; // split it on a space
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String bar = thing.doSomething(f43860); // reflection
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

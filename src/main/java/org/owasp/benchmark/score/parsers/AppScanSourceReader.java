@@ -15,9 +15,7 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashSet;
@@ -25,20 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 public class AppScanSourceReader extends Reader {
 	
 	// This is the original AppScan Source reader, when they generated ".ozasmt" files.
-
 	public TestResults parse( File f ) throws Exception {
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
@@ -58,13 +52,10 @@ public class AppScanSourceReader extends Reader {
         // but AppScan's score went down.
         //Map<Integer,String> sev = parsePool( root, "FindingDataPool", "id", "sev", "" );
 		Map<Integer,Set<Integer>> assess = parseAssessments( root );
-
 		TestResults tr = new TestResults( "IBM AppScan Source",true,TestResults.ToolType.SAST);
-
 	    // <AssessmentRun name="webgoat-benchmark_3 - 5/18/15 12:01AM" version="9.0.1.0">
 		String version = getAttributeValue( "version", root );
         tr.setToolVersion( version );
-
 		List<Node> msgList = getNamedNodes( "Messages", root.getChildNodes() );
 		List<Node> msgs = getNamedChildren( "Message", msgList );
 		for ( Node node : msgs ) {
@@ -127,14 +118,12 @@ public class AppScanSourceReader extends Reader {
         if ( secs.length() < 2 ) secs = "0" + secs;
 	    return hours + ":" + mins + ":" + secs;
     }
-
     private static void printPool(Map<Integer, String> vulns) {
 		for ( Map.Entry<Integer, String> e : vulns.entrySet() ) {
 			System.out.println( "  " + e.getKey() + " :: " + e.getValue() );
 		}
 		
 	}
-
 	private static int cweLookup(String vtype) {
 		switch( vtype ) {
 //		case "Vulnerability.AppDOS" : return 00;
@@ -160,8 +149,6 @@ public class AppScanSourceReader extends Reader {
 	}
 	return 0;
 	}
-
-
 	/**
 	 * Returns a list of finding_id's for each file_id 
 	 * @param root
@@ -192,8 +179,6 @@ public class AppScanSourceReader extends Reader {
 		}
 		return map;
 	}
-
-
 	private Map<Integer,String> parsePool( Node root, String poolname, String keyname, String valuename, String prefix ) {
 		Map<Integer,String> map = new TreeMap<Integer,String>();
 		Node parent = getNamedNode( poolname, root.getChildNodes() );
@@ -208,5 +193,4 @@ public class AppScanSourceReader extends Reader {
 		}
 		return map;
 	}
-
 }

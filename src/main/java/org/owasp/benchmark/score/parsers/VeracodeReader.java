@@ -15,25 +15,19 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 public class VeracodeReader extends Reader {
-
     public TestResults parse(File f) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
@@ -41,7 +35,6 @@ public class VeracodeReader extends Reader {
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         InputSource is = new InputSource(new FileInputStream(f));
         Document doc = docBuilder.parse(is);
-
         TestResults tr = new TestResults( "Veracode SAST" ,true,TestResults.ToolType.SAST);
        
         // <static-analysis rating="F" score="24" submitted_date="2015-05-23 00:04:57 UTC" published_date="2015-05-28 15:28:35 UTC" next_scan_due="2015-08-28 15:28:35 UTC" analysis_size_bytes="70797465" engine_version="82491">
@@ -64,7 +57,6 @@ public class VeracodeReader extends Reader {
         List<Node> statList = getNamedChildren( "staticflaws", cweList );
         
         List<Node> flawList = getNamedChildren( "flaw", statList );
-
         for ( Node flaw : flawList ) {
             TestCaseResult tcr = parseVeracodeVulnerability(flaw);
             if (tcr != null ) {
@@ -73,7 +65,6 @@ public class VeracodeReader extends Reader {
         }
         return tr;
     }
-
     // submitted_date="2015-05-23 00:04:57 UTC"
     // published_date="2015-05-28 15:28:35 UTC"
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
@@ -115,9 +106,7 @@ public class VeracodeReader extends Reader {
         }
         
         tcr.setCategory( getAttributeValue("categoryname", flaw));
-
         tcr.setConfidence( Integer.parseInt( getAttributeValue( "exploitLevel", flaw) ) );
-
         tcr.setEvidence( getAttributeValue( "categoryname", flaw ) );
  
         String testcase = getAttributeValue( "sourcefile", flaw );
@@ -129,7 +118,6 @@ public class VeracodeReader extends Reader {
         
         return null;
     }
-
     private int translate(int cwe) {
         if ( cwe == 73 ) return 22;
         if ( cwe == 80 ) return 79;

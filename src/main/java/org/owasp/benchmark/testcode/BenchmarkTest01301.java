@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-02/BenchmarkTest01301")
 public class BenchmarkTest01301 extends HttpServlet {
 	
@@ -35,14 +31,12 @@ public class BenchmarkTest01301 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	
 		String param = request.getParameter("BenchmarkTest01301");
 		if (param == null) param = "";
-
 		String bar = new Test().doSomething(request, param);
 		
 		String sql = "{call " + bar + "}";
@@ -63,12 +57,9 @@ public class BenchmarkTest01301 extends HttpServlet {
 			else throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a11416 = param; //assign
 		StringBuilder b11416 = new StringBuilder(a11416);  // stick in stringbuilder
@@ -84,9 +75,7 @@ public class BenchmarkTest01301 extends HttpServlet {
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String g11416 = "barbarians_at_the_gate";  // This is static so this whole flow is 'safe'
 		String bar = thing.doSomething(g11416); // reflection
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

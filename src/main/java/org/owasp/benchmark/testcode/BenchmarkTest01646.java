@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-01/BenchmarkTest01646")
 public class BenchmarkTest01646 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01646 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -56,12 +51,10 @@ public class BenchmarkTest01646 extends HttpServlet {
 			param = queryString.substring(paramLoc + paramval.length(), ampersandLoc);
 		}
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
 		String fileName = null;
 		java.io.FileOutputStream fos = null;
-
 		try {
 			fileName = org.owasp.benchmark.helpers.Utils.testfileDir + bar;
 	
@@ -69,7 +62,6 @@ public class BenchmarkTest01646 extends HttpServlet {
 	        response.getWriter().println(
 			"Now ready to write to file: " + org.owasp.esapi.ESAPI.encoder().encodeForHTML(fileName)
 );
-
 		} catch (Exception e) {
 			System.out.println("Couldn't open FileOutputStream on file: '" + fileName + "'");
 //			System.out.println("File exception caught and swallowed: " + e.getMessage());
@@ -84,12 +76,9 @@ public class BenchmarkTest01646 extends HttpServlet {
 			}
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map84260 = new java.util.HashMap<String,Object>();
 		map84260.put("keyA-84260", "a_Value"); // put some stuff in the collection
@@ -97,9 +86,7 @@ public class BenchmarkTest01646 extends HttpServlet {
 		map84260.put("keyC", "another_Value"); // put some stuff in the collection
 		bar = (String)map84260.get("keyB-84260"); // get it back out
 		bar = (String)map84260.get("keyA-84260"); // get safe value back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

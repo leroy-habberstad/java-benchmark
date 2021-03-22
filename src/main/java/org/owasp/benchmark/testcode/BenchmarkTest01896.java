@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-02/BenchmarkTest01896")
 public class BenchmarkTest01896 extends HttpServlet {
 	
@@ -35,11 +31,9 @@ public class BenchmarkTest01896 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		String param = "";
 		if (request.getHeader("BenchmarkTest01896") != null) {
 			param = request.getHeader("BenchmarkTest01896");
@@ -47,12 +41,10 @@ public class BenchmarkTest01896 extends HttpServlet {
 		
 		// URL Decode the header value since req.getHeader() doesn't. Unlike req.getParameter().
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = doSomething(request, param);
 		
 		// Code based on example from:
 		// http://examples.javacodegeeks.com/core-java/crypto/encrypt-decrypt-file-stream-with-des/
-
 		try {
 			javax.crypto.Cipher c = org.owasp.benchmark.helpers.Utils.getCipher();
 			// encrypt and store the results
@@ -80,7 +72,6 @@ public class BenchmarkTest01896 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 		} catch (javax.crypto.IllegalBlockSizeException e) {
 			response.getWriter().println(
 "Problem executing crypto - javax.crypto.Cipher.getInstance(java.lang.String,java.security.Provider) Test Case"
@@ -101,7 +92,6 @@ e.printStackTrace(response.getWriter());
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "";
 		if (param != null) {
 			bar = new String( org.apache.commons.codec.binary.Base64.decodeBase64(

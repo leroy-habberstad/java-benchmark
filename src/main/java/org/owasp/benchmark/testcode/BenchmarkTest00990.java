@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-02/BenchmarkTest00990")
 public class BenchmarkTest00990 extends HttpServlet {
 	
@@ -41,7 +37,6 @@ public class BenchmarkTest00990 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/weakrand-02/BenchmarkTest00990.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -57,7 +52,6 @@ public class BenchmarkTest00990 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = new Test().doSomething(request, param);
 		
 		try {
@@ -83,7 +77,6 @@ public class BenchmarkTest00990 extends HttpServlet {
 					}
 				}
 			}
-
 			if (foundUser) {
 				response.getWriter().println(
 "Welcome back: " + user + "<br/>"
@@ -108,18 +101,12 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 		response.getWriter().println(
 "Weak Randomness Test java.security.SecureRandom.nextInt() executed"
 );
-
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = org.springframework.web.util.HtmlUtils.htmlEscape(param);
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

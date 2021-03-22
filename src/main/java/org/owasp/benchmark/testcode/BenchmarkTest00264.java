@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-00/BenchmarkTest00264")
 public class BenchmarkTest00264 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest00264 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -62,7 +57,6 @@ public class BenchmarkTest00264 extends HttpServlet {
 		
         String fileName = null;
         java.io.FileInputStream fis = null;
-
         try {
           fileName = org.owasp.benchmark.helpers.Utils.testfileDir + bar;
           fis = new java.io.FileInputStream(new java.io.File(fileName));

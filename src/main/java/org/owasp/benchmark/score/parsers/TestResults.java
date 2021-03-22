@@ -15,9 +15,7 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +23,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
-
 import org.owasp.benchmark.score.BenchmarkScore;
-
 /*
  * This class contains the actual results for a single tool against the entire Benchmark, or the 
  * expected results, if its initialized with the expected results file.
  */
-
 public class TestResults {
-
 	// The types of tools that can generate results
 	public static enum ToolType {
 		SAST,
@@ -95,7 +89,6 @@ public class TestResults {
 	public List<TestCaseResult> get( int tn ) {
 		return map.get( tn );
 	}
-
 	public Set<Integer> keySet() {
 		return map.keySet();
 	}
@@ -107,7 +100,6 @@ public class TestResults {
     public String getTool() {
         return this.toolName;
     }
-
 	/**
 	 * Get the name of the tool and its version together. e.g., "IBM AppScan v4.2". But if the tool is commercial,
 	 * and its in anonymous mode then don't include the version number as that could give away the tool.
@@ -132,7 +124,6 @@ public class TestResults {
 	public void setTool( String toolName ) {
 	    this.toolName = toolName;
 	}
-
 	/**
 	 * This method anonymizes the tool name based on the type of tool it is and the count of previous 
 	 * tools of the same type that also have been anonymized.
@@ -140,7 +131,6 @@ public class TestResults {
 	public void setAnonymous() {
 		//System.out.println("Anonymizing tool: " + this.getTool() + " which is of type: " + getToolType());
 		this.anonymous = true;
-
 		switch (getToolType()) {
 			case SAST : {
 				if (nextCommercialSAST_ToolNumber < 10) {
@@ -165,7 +155,6 @@ public class TestResults {
 	public void setToolVersion( String version ) {
 	    this.toolVersion = version;
 	}
-
     public String getTime() {
         return time;
     }
@@ -184,11 +173,9 @@ public class TestResults {
 			this.setTime("Time not specified");
 		}
     }
-
     // We had to create a custom method for Fortify since we extract the contents of the .fpr
     // file out into a temp file whose name looks like this:
     //      Benchmark_1.1-Fortify-13121.fpr8111236727473243675.fvdl
-
     public void setFortifyTime ( File f ) {
 		String filename = f.getName();
 		// to make the same as normal filenames, strip off the '.fvdl' at the end of the filename
@@ -205,7 +192,6 @@ public class TestResults {
     public int totalResults() {
     	return map.size();
     }
-
     /**
      * Convert the time it took to compute these results into a label to add to the scorecard.
      * @param millis - compute time in milliseconds
@@ -217,7 +203,6 @@ public class TestResults {
         {
             throw new IllegalArgumentException("Duration must be greater than zero!");
         }
-
         long days = TimeUnit.MILLISECONDS.toDays(millis);
         millis -= TimeUnit.DAYS.toMillis(days);
         long hours = TimeUnit.MILLISECONDS.toHours(millis);
@@ -225,7 +210,6 @@ public class TestResults {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
         millis -= TimeUnit.MINUTES.toMillis(minutes);
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
-
         StringBuilder sb = new StringBuilder(64);
         if (days > 0) {
         	sb.append(days);
@@ -238,7 +222,6 @@ public class TestResults {
         sb.append(minutes);
         if (seconds > 9) sb.append(":"); else sb.append(":0");
         sb.append(seconds);
-
         return(sb.toString());
     }
     
@@ -248,7 +231,6 @@ public class TestResults {
      * @return a String label of the compute time. (e.g., 1 Days 2:55:32)
      */
     public static String formatTime(String millis) {
-
     	String result;
         try {
         	long time = Long.valueOf(millis);

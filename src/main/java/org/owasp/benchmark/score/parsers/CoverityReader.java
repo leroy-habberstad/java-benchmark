@@ -15,28 +15,20 @@
 * @author Dave Wichers
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.owasp.benchmark.score.BenchmarkScore;
-
 public class CoverityReader extends Reader {
-
 	public TestResults parse( File f ) throws Exception {
 		String content = new String(Files.readAllBytes(Paths.get(f.getPath())));
-
 		JSONObject obj = new JSONObject(content);
 		int version = obj.getInt( "formatVersion" );
-
 		String key = version > 1 ? "issues" : "mergedIssues";
 		JSONArray arr = obj.getJSONArray(key);
-
 		TestResults tr = new TestResults( "Coverity Code Advisor" ,true,TestResults.ToolType.SAST); // Coverity's tool is called Code Advisor or Code Advisor On Demand
 		// Fixme: See if we can figure this out from some of the files they provide
 		tr.setTime(f);
@@ -51,7 +43,6 @@ public class CoverityReader extends Reader {
 		
 		return tr;
 	}
-
 	
 	private TestCaseResult parseCoverityFinding(JSONObject finding, int version) {
 		try {

@@ -15,14 +15,10 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class NoisyCricketReader extends Reader {
 	
 	public TestResults parse( Node root ) throws Exception {
@@ -30,7 +26,6 @@ public class NoisyCricketReader extends Reader {
 		tr.setTime("1 minute");
 		Node meta = getNamedChild( "meta", root );
         tr.setToolVersion( getAttributeValue( "version", meta ) );
-
         Node vulns = getNamedChild( "vulnerabilities", root );
         List<Node> items = getNamedChildren("vulnerability", vulns );
         for ( Node item : items ) {
@@ -55,7 +50,6 @@ public class NoisyCricketReader extends Reader {
                 return;
             }
         }
-
         String cwelist = getAttributeValue("cwelist",item);
         cwelist = cwelist.substring(1,cwelist.length()-1);
         if ( !cwelist.isEmpty() ) {
@@ -69,5 +63,4 @@ public class NoisyCricketReader extends Reader {
         }
         return;
 	}
-
 }

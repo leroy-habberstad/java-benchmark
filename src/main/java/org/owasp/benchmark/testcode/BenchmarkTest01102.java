@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/crypto-01/BenchmarkTest01102")
 public class BenchmarkTest01102 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01102 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -56,7 +51,6 @@ public class BenchmarkTest01102 extends HttpServlet {
 			}
 		}
 		// Note: We don't URL decode header names because people don't normally do that
-
 		String bar = new Test().doSomething(request, param);
 		
 		// Code based on example from:
@@ -102,7 +96,6 @@ public class BenchmarkTest01102 extends HttpServlet {
 			response.getWriter().println(
 "Sensitive value: '" + org.owasp.esapi.ESAPI.encoder().encodeForHTML(new String(input)) + "' encrypted and stored<br/>"
 );
-
 			
 		} catch (java.security.NoSuchAlgorithmException e) {
 			response.getWriter().println(
@@ -145,21 +138,16 @@ e.printStackTrace(response.getWriter());
 "Crypto Test javax.crypto.Cipher.getInstance(java.lang.String) executed"
 );
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map10086 = new java.util.HashMap<String,Object>();
 		map10086.put("keyA-10086", "a-Value"); // put some stuff in the collection
 		map10086.put("keyB-10086", param); // put it in a collection
 		map10086.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map10086.get("keyB-10086"); // get it back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

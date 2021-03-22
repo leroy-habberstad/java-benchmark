@@ -15,23 +15,17 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-
 public class CheckmarxReader extends Reader {
-
     public TestResults parse(File f) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
@@ -39,23 +33,17 @@ public class CheckmarxReader extends Reader {
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
         InputSource is = new InputSource(new FileInputStream(f));
         Document doc = docBuilder.parse(is);
-
         TestResults tr = new TestResults( "Checkmarx CxSAST",true, TestResults.ToolType.SAST );
-
         // <CxXMLResults DeepLink="http://CHECKMARX2/CxWebClient/ViewerMain.aspx?scanid=52869&amp;projectid=30265"
         // ScanStart="Monday, July 27, 2015 4:50:08 PM" Preset="Default 2014" ScanTime="13h:54m:20s"
         // LinesOfCodeScanned="1507279" FilesScanned="21075" ReportCreationTime="Tuesday, July 28, 2015 8:38:30 AM"
         // Team="CxServer" CheckmarxVersion="7.1.8 HF2" ScanComments="" ScanType="Full" SourceOrigin="LocalPath">
-
         Node root = doc.getDocumentElement();
         String version = getAttributeValue( "CheckmarxVersion", root );
         tr.setToolVersion( version );
-
         String time = getAttributeValue("ScanTime", root);
         tr.setTime( time );
-
         List<Node> queryList = getNamedChildren( "Query", root );
-
         for ( Node query : queryList ) {            
             List<Node> resultList = getNamedChildren( "Result", query );
             for ( Node result : resultList ) {
@@ -72,26 +60,22 @@ public class CheckmarxReader extends Reader {
         }
         return tr;
     }
-
     private TestCaseResult parseCheckmarxVulnerability(Node query, Node result) {
         TestCaseResult tcr = new TestCaseResult();
         // <Query id="594" cweId="89" name="SQL_Injection" group="Java_High_Risk" Severity="High"
         // Language="Java" LanguageHash="0188428345217368" LanguageChangeDate="2015-07-14T00:00:00.0000000"
         // SeverityIndex="3">
-
         // <Result NodeId="528692318" FileName="/org/owasp/benchmark/testcode/BenchmarkTest00026.java"
         // Status="New" Line="50" Column="29" FalsePositive="False" Severity="High" AssignToUser="" 
         // state="0" Remark=""
         // DeepLink="http://CHECKMARX2/CxWebClient/ViewerMain.aspx?scanid=52869&amp;projectid=30265&amp;pathid=2318"
         // SeverityIndex="3">
-
         String cwe = getAttributeValue("cweId", query);
         if ( cwe != null ) {
             tcr.setCWE( translate( Integer.parseInt(cwe ) ) );
         } else {
             System.out.println( "flaw: " + query );
         }
-
         String name = getAttributeValue("name", query);
         tcr.setCategory( name );
         // filter out dynamic SQL queries because they report SQL injection separately - these are just dynamic SQL
@@ -124,16 +108,13 @@ public class CheckmarxReader extends Reader {
              name.equals( "CGI_Reflected_XSS_All_Clients" )) {
             return null;
         }
-
 	//Output xml file from Checkmarx (depends on version) sometimes does not contain attribute on the node "query" named SeverityIndex
         String SeverityIndex = getAttributeValue( "SeverityIndex", result);
 	boolean isGeneratedByCxWebClient = SeverityIndex != null && !SeverityIndex.equals("");
 	if(isGeneratedByCxWebClient) { 
 		tcr.setConfidence( Integer.parseInt( getAttributeValue( "SeverityIndex", result) ) );
 	}
-
         tcr.setEvidence( getAttributeValue( "name", query ) );
-
 		/* Some results do not appear in the previous version of this parser because it only look for the attribute "FileName"
 		*  Checkmarx have some results where the input does not start in a BenchmarkTest file so it was necessary to make some changes
 		*  We must consider a good result if the result node "FileName" startsWith BenchmarkTest file or if the last PathNode ends in a "FileName" that startsWith BenchmarkTest file. 
@@ -149,7 +130,6 @@ public class CheckmarxReader extends Reader {
 		//Get the FileName element inside the last PathNode
 		 List<Node> fileNames = getNamedChildren( "FileName", last );
 		 Node fileNameNode = fileNames.get(0);
-
 		//If the result starts in a BenchmarkTest file
         String testcase = getAttributeValue("FileName", result);
 		//Output xml file from Checkmarx (depends on version) may use windows based '\\' or unix based '/' delimiters for path
@@ -191,10 +171,8 @@ public class CheckmarxReader extends Reader {
               return tcr;
           }
         }
-
         return null;
     }
-
     private int translate(int cwe) {
         switch( cwe ) {
             case 77 :   return 78;   // command injection

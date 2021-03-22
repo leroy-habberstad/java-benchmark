@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-02/BenchmarkTest01314")
 public class BenchmarkTest01314 extends HttpServlet {
 	
@@ -35,14 +31,12 @@ public class BenchmarkTest01314 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	
 		String param = request.getParameter("BenchmarkTest01314");
 		if (param == null) param = "";
-
 		String bar = new Test().doSomething(request, param);
 		
 		String sql = "INSERT INTO users (username, password) VALUES ('foo','"+ bar + "')";
@@ -61,12 +55,9 @@ public class BenchmarkTest01314 extends HttpServlet {
 			else throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar;
 		
 		// Simple if statement that assigns param to bar on true condition
@@ -74,9 +65,7 @@ public class BenchmarkTest01314 extends HttpServlet {
 		if ( (500/42) + num > 200 )
 		   bar = param;
 		else bar = "This should never happen"; 
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

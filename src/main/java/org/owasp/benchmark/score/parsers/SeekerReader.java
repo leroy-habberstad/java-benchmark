@@ -15,21 +15,15 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-
 import java.io.File;
-
 public class SeekerReader extends Reader
 {
-
   private static int cweLookup(String checkerKey)
   {
     checkerKey = checkerKey.replace("-SECOND-ORDER", "");
-
     switch (checkerKey)
     {
       case "COOK-SEC":
@@ -73,18 +67,15 @@ public class SeekerReader extends Reader
     }
     return 0;
   }
-
   public TestResults parse(File f) throws Exception
   {
     TestResults tr = new TestResults("Seeker", true, TestResults.ToolType.IAST);
-
     java.io.Reader inReader = new java.io.FileReader(f);
     Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(inReader);
     for (CSVRecord record : records)
     {
       String checkerKey = record.get("CheckerKey");
       String url = record.get("LastDetectionURL");
-
       TestCaseResult tcr = new TestCaseResult();
       tcr.setCategory(checkerKey);
       tcr.setCWE(cweLookup(checkerKey));
@@ -99,16 +90,12 @@ public class SeekerReader extends Reader
       {
         System.out.println("> Parse error: " + record.toString());
       }
-
       if (tcr.getCWE() != 0)
       {        
         tr.put(tcr);
       }
     }
-
     tr.setTime("100");
-
     return tr;
   }
-
 }

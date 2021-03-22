@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-03/BenchmarkTest01722")
 public class BenchmarkTest01722 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01722 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -56,7 +51,6 @@ public class BenchmarkTest01722 extends HttpServlet {
 			param = queryString.substring(paramLoc + paramval.length(), ampersandLoc);
 		}
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
  		String sql = "SELECT * from USERS where USERNAME='foo' and PASSWORD='" + bar + "'";
@@ -76,7 +70,6 @@ public class BenchmarkTest01722 extends HttpServlet {
 			response.getWriter().println(
 				"Your results are: "
 			);
-
 	//		System.out.println("Your results are");
 			for (String s : results) {
 				response.getWriter().println(
@@ -97,12 +90,9 @@ public class BenchmarkTest01722 extends HttpServlet {
 			else throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map33422 = new java.util.HashMap<String,Object>();
 		map33422.put("keyA-33422", "a_Value"); // put some stuff in the collection
@@ -110,9 +100,7 @@ public class BenchmarkTest01722 extends HttpServlet {
 		map33422.put("keyC", "another_Value"); // put some stuff in the collection
 		bar = (String)map33422.get("keyB-33422"); // get it back out
 		bar = (String)map33422.get("keyA-33422"); // get safe value back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

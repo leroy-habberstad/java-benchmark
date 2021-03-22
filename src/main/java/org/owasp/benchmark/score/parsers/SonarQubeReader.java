@@ -15,25 +15,19 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
 public class SonarQubeReader extends Reader {
-
     public TestResults parse(File f) throws Exception {
         DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		// Prevent XXE
@@ -43,17 +37,13 @@ public class SonarQubeReader extends Reader {
         String fixed = "<sonar>" + new String(bytes, "UTF-8") + "</sonar>";
         InputSource is = new InputSource(new ByteArrayInputStream( fixed.getBytes() ) );
         Document doc = docBuilder.parse(is);
-
         TestResults tr = new TestResults( "SonarQube Java Plugin" ,false,TestResults.ToolType.SAST);
-
         // If the filename includes an elapsed time in seconds (e.g., TOOLNAME-seconds.xml), 
 		// set the compute time on the score card.
         tr.setTime(f);
         
         NodeList rootList = doc.getDocumentElement().getChildNodes();
-
         List<Node> issueList = getNamedNodes( "issues", rootList );
-
         for ( Node flaw : issueList ) {
             TestCaseResult tcr = parseSonarIssue(flaw);
             if (tcr != null ) {
@@ -62,19 +52,14 @@ public class SonarQubeReader extends Reader {
         }
         return tr;
     }
-
     private TestCaseResult parseSonarIssue(Node flaw) {
         TestCaseResult tcr = new TestCaseResult();
         String rule = getNamedChild("rule", flaw).getTextContent();
         tcr.setCWE( cweLookup( rule.substring( "squid:".length() ) ) );
-
         String cat = getNamedChild("message", flaw).getTextContent();
         tcr.setCategory( cat );
-
         tcr.setConfidence( 5 );
-
         tcr.setEvidence( cat );
-
         String testfile = getNamedChild("component", flaw).getTextContent().trim();
         testfile = testfile.substring( testfile.lastIndexOf('/') +1 );
         if ( testfile.matches( BenchmarkScore.BENCHMARKTESTNAME + "\\d+.java" ) ) {
@@ -84,7 +69,6 @@ public class SonarQubeReader extends Reader {
         }
         return null;
     }
-
 //    //case "Build Misconfiguration" : return 00;
 //    case "Command Injection" : return 78;
 //    case "Cookie Security" : return 614;
@@ -111,10 +95,6 @@ public class SonarQubeReader extends Reader {
 //    case "Weak Cryptographic Hash" : return 328;
 //    case "Weak Encryption" : return 327;
 //    case "XPath Injection" : return 643;
-
-
-
-
     public static int cweLookup(String squidNumber) {
         switch( squidNumber ) {
         case "S00105" : return 0000; //S00105-Replace all tab characters in this file by sequences of white-spaces.
@@ -166,6 +146,4 @@ public class SonarQubeReader extends Reader {
         // System.out.println( "Failed to translate " + squidNumber );
         return -1;
     }
-
 }
-

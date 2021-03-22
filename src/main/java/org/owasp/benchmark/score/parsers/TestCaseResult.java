@@ -15,15 +15,11 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 /* This class represents a single test case result. It documents the expected result (real), 
  * and the actual result (result).
  */
-
 public class TestCaseResult {
-
 	private String testCaseName = "";
 	private int number = 0;
 	private boolean real = false;
@@ -38,7 +34,6 @@ public class TestCaseResult {
 	private String dataflow = null;
 	private String dataflowfile = null;
 	private String sink = null;
-
 	
 	/*
 	 *  Set the name of the test case (E.g., BenchmarkTest00001). This is frequently only used for 
@@ -58,11 +53,9 @@ public class TestCaseResult {
 	public int getConfidence() {
         return confidence;
     }
-
     public void setConfidence(int confidence) {
         this.confidence = confidence;
     }
-
     public int getNumber() { 
 		return number;
 	}
@@ -74,35 +67,27 @@ public class TestCaseResult {
 	public boolean isReal() {
 		return real;
 	}
-
 	public void setReal(boolean real) {
 		this.real = real;
 	}
-
 	public boolean isPassed() {
 		return result;
 	}
-
 	public void setPassed(boolean result) {
 		this.result = result;
 	}
-
 	public int getCWE() {
 		return CWE;
 	}
-
 	public void setCWE(int cwe) {
 		this.CWE = cwe;
 	}
-
 	public String getCategory() {
 		return category;
 	}
-
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
 	public String getEvidence() {
 		return evidence;
 	}
@@ -118,7 +103,6 @@ public class TestCaseResult {
 	public void setSource(String source) {
 		this.source = source;
 	}
-
 	public String getDataFlow() {
 		return this.dataflow;
 	}
@@ -126,7 +110,6 @@ public class TestCaseResult {
 	public void setDataFlow(String dataflow) {
 		this.dataflow = dataflow;
 	}
-
 	public String getDataFlowFile() {
 		return this.dataflowfile;
 	}
@@ -134,7 +117,6 @@ public class TestCaseResult {
 	public void setDataFlowFile(String dataflowfile) {
 		this.dataflowfile = dataflowfile;
 	}
-
 	public String getSink() {
 		return this.sink;
 	}
@@ -142,7 +124,6 @@ public class TestCaseResult {
 	public void setSink(String sink) {
 		this.sink = sink;
 	}
-
 	public String toString() {
 		return getNumber() + "," + getCategory() + "," + isReal() + "," + getCWE() + "," + isPassed() + "," + getEvidence() + "," + getConfidence();
 	}

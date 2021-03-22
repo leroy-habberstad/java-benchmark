@@ -15,21 +15,16 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
-
-
 /*
  * This class holds the overall results for a single tool's scan of the Benchmark. It contains an OverallResult for 
  * each vulnerability category in the Benchmark. It also contains some overall results data like the overall score, 
  * and the true positive and false positive rates.
  */
 public class OverallResults {
-
 	private Map<String,OverallResult> map = new TreeMap<String,OverallResult>();
 	private double score = 0;  // The overall score for this tool
 	private int total = 0; // The total number of TP, FP, FN, TN across all test cases for this tool.
@@ -41,7 +36,6 @@ public class OverallResults {
 	private Counter findingCounts;
 	
     private String time = "Unknown";
-
 	public void add( String category, double tpr, double fpr, int total, double score ) {
 		OverallResult r = new OverallResult( category, tpr, fpr, total, score );
 		map.put( category, r );
@@ -55,7 +49,6 @@ public class OverallResults {
 	public OverallResult getResults( String category) {
 		return map.get(category);
 	}
-
 	/**
 	 * Get the overall results for this tool across all vulnerability categories.
 	 * @return A collection of the OverallResults.
@@ -63,7 +56,6 @@ public class OverallResults {
 	public Collection<OverallResult> getResults() {
 	    return map.values();
 	}
-
 	public Collection<String> getCategories() {
 	    return map.keySet();
 	}
@@ -75,14 +67,12 @@ public class OverallResults {
     public double getScore() {
         return score;
     }
-
 	/**
 	 * Sets the overall score for this tool. This is supposed to be the True Positive Rate - the False Positive rate.
 	 */
     public void setScore(double score) {
         this.score = score;
     }
-
 	/**
 	 * Returns the true positive rate for this tool.
 	 * @return This tool's true positive rate.
@@ -90,14 +80,12 @@ public class OverallResults {
     public double getTruePositiveRate() {
         return TPRate;
     }
-
 	/**
 	 * Sets the true positive rate for this tool.
 	 */
     public void setTruePositiveRate(double rate) {
         this.TPRate = rate;
     }
-
 	/**
 	 * Returns the false positive rate for this tool.
 	 * @return This tool's true positive rate.
@@ -105,14 +93,12 @@ public class OverallResults {
     public double getFalsePositiveRate() {
         return FPRate;
     }
-
 	/**
 	 * Sets the false positive rate for this tool.
 	 */
     public void setFalsePositiveRate(double rate) {
         this.FPRate = rate;
     }
-
     /**
      * Returns the total number of test cases processed with this tool.
      * @return The total.
@@ -128,7 +114,6 @@ public class OverallResults {
     public void setTotal( int total ) {
         this.total = total;
     }
-
     /**
      * Returns the amount of time it took to run a scan of the Benchmark with this tool.
      * @return The Benchmark scan time.
@@ -144,7 +129,6 @@ public class OverallResults {
     public void setTime( String elapsed ) {
         this.time = elapsed;
     }
-
     public void setFindingCounts(int tp, int fp, int fn, int tn) {
     	this.findingCounts = new Counter();
     	this.findingCounts.tp = tp;

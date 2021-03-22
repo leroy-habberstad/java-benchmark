@@ -15,35 +15,26 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class AppScanDynamicReader extends Reader {
     
     public TestResults parse(Node root) throws Exception {
-
         TestResults tr = new TestResults("IBM AppScan", true, TestResults.ToolType.DAST);
-
 //      <AppScanInfo>
 //        <Version>9.0.1.1</Version>
 //        <ServicePack />
 //      </AppScanInfo>
-
         Node info = getNamedChild("AppScanInfo", root);
         Node version = getNamedChild( "Version", info );
         tr.setToolVersion(version.getTextContent());
-
 //        <Summary>
 //        <TotalScanDuration>14:48:40.9394530</TotalScanDuration>
-
         Node summary = getNamedChild("Summary", root);
         Node elapsed = getNamedChild( "TotalScanDuration", summary );
         tr.setTime(calculateTime(elapsed.getTextContent()));
@@ -112,8 +103,6 @@ public class AppScanDynamicReader extends Reader {
         }
         return tr;
     }
-
-
     
 //  <TotalScanDuration>14:48:40.9394530</TotalScanDuration>
     private static String calculateTime(String elapsed) {
@@ -138,15 +127,12 @@ public class AppScanDynamicReader extends Reader {
         Integer cwe = cweMap.get(cwekey);
         if ( cwe == null ) return null;
         tcr.setCWE(translate(cwe));
-
         tcr.setCategory(cwekey);
         tcr.setEvidence(cwekey);
-
         // fixme: not really confidence
         // fixme: what is "noise" attribute?
         String confidence = getNamedChild( "Severity", issue ).getTextContent();
         // tcr.setConfidence( makeIntoInt( confidence ) );
-
         String testcase = getNamedChild("Url", issue).getTextContent();
         testcase = testcase.substring(testcase.lastIndexOf('/') + 1);
         testcase = testcase.split("\\.")[0];
@@ -159,10 +145,8 @@ public class AppScanDynamicReader extends Reader {
             }
             return tcr;
         }
-
         return null;
     }
-
     private int translate(int id) {
         switch (id) {
             // //case "Build Misconfiguration" : return 00;
@@ -194,5 +178,4 @@ public class AppScanDynamicReader extends Reader {
         }
         return id;
     }
-
 }

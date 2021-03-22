@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-03/BenchmarkTest01809")
 public class BenchmarkTest01809 extends HttpServlet {
 	
@@ -35,14 +31,12 @@ public class BenchmarkTest01809 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	
 		org.owasp.benchmark.helpers.SeparateClassRequest scr = new org.owasp.benchmark.helpers.SeparateClassRequest( request );
 		String param = scr.getTheValue("BenchmarkTest01809");
-
 		String bar = new Test().doSomething(request, param);
 		
 		String sql = "SELECT * from USERS where USERNAME='foo' and PASSWORD='" + bar + "'";
@@ -51,7 +45,6 @@ public class BenchmarkTest01809 extends HttpServlet {
 			response.getWriter().println(
 				"Your results are: <br>"
 			);
-
 	//		System.out.println("Your results are");
 			
 			for (Object o:list) {
@@ -74,12 +67,9 @@ public class BenchmarkTest01809 extends HttpServlet {
 			else throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a64594 = param; //assign
 		StringBuilder b64594 = new StringBuilder(a64594);  // stick in stringbuilder
@@ -95,9 +85,7 @@ public class BenchmarkTest01809 extends HttpServlet {
 		org.owasp.benchmark.helpers.ThingInterface thing = org.owasp.benchmark.helpers.ThingFactory.createThing();
 		String g64594 = "barbarians_at_the_gate";  // This is static so this whole flow is 'safe'
 		String bar = thing.doSomething(g64594); // reflection
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

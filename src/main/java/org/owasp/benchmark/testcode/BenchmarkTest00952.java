@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-01/BenchmarkTest00952")
 public class BenchmarkTest00952 extends HttpServlet {
 	
@@ -41,7 +37,6 @@ public class BenchmarkTest00952 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/pathtraver-01/BenchmarkTest00952.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -57,7 +52,6 @@ public class BenchmarkTest00952 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = new Test().doSomething(request, param);
 		
 		// FILE URIs are tricky because they are different between Mac and Windows because of lack of standardization.
@@ -67,7 +61,6 @@ public class BenchmarkTest00952 extends HttpServlet {
 	        if (System.getProperty("os.name").indexOf("Windows") != -1)
 	        	startURIslashes = "/";
 	        else startURIslashes = "//";
-
 		try {
 			java.net.URI fileURI = new java.net.URI("file", null, startURIslashes 
 				+ org.owasp.benchmark.helpers.Utils.testfileDir.replace('\\', java.io.File.separatorChar).replace(' ', '_') + bar, null, null);
@@ -86,12 +79,9 @@ public class BenchmarkTest00952 extends HttpServlet {
 			throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar;
 		String guess = "ABC";
 		char switchTarget = guess.charAt(2);
@@ -112,9 +102,7 @@ public class BenchmarkTest00952 extends HttpServlet {
 		        bar = "bobs_your_uncle";
 		        break;
 		}
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

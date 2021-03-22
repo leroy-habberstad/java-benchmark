@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-03/BenchmarkTest01696")
 public class BenchmarkTest01696 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01696 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -56,7 +51,6 @@ public class BenchmarkTest01696 extends HttpServlet {
 			param = queryString.substring(paramLoc + paramval.length(), ampersandLoc);
 		}
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
 		try {
@@ -83,7 +77,6 @@ public class BenchmarkTest01696 extends HttpServlet {
 					}
 				}
 			}
-
 			
 			if (foundUser) {
 				response.getWriter().println(
@@ -111,21 +104,16 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 "Weak Randomness Test java.security.SecureRandom.nextDouble() executed"
 );
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map83181 = new java.util.HashMap<String,Object>();
 		map83181.put("keyA-83181", "a-Value"); // put some stuff in the collection
 		map83181.put("keyB-83181", param); // put it in a collection
 		map83181.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map83181.get("keyB-83181"); // get it back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

@@ -1,5 +1,4 @@
 package org.owasp.benchmark.tools;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -23,18 +21,14 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 public class NoisyCricket {
-
     private static Element vulns = null;
     private static Document report = null;
     
     public static void main(String[] args) {
         try {
-
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
     		// Prevent XXE
     		docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
@@ -43,7 +37,6 @@ public class NoisyCricket {
             
             Element docroot = report.createElement("noisycricket");
             report.appendChild( docroot );
-
             Element version = report.createElement("meta");
             version.setAttribute("tool", "NoisyCricket");
             version.setAttribute("version", "8.1");
@@ -52,7 +45,6 @@ public class NoisyCricket {
             
             vulns = report.createElement("vulnerabilities");
             docroot.appendChild(vulns);
-
             FileVisitor<Path> visitor = new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
@@ -74,14 +66,11 @@ public class NoisyCricket {
             DOMSource source = new DOMSource(report);
             StreamResult result = new StreamResult(new FileWriter(new File( "NoisyCricket.xml" )));
             transformer.transform(source, result);
-
             System.out.println("\n\nNoisyCricket.xml saved!");
-
         } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
-
     public static void analyze( Path p ) throws IOException {
         Element vuln = report.createElement("vulnerability");
         List<String> lines = Files.readAllLines(p, Charset.defaultCharset() );
@@ -105,53 +94,43 @@ public class NoisyCricket {
         vuln.setAttribute("file", p.getFileName().toString() );
         vulns.appendChild(vuln);
     }
-
     private static boolean checkLDAP(String line) {
         if ( match( line, "ldap" ) ) return true;
         return false;
     }
-
     private static boolean checkCommandInjection(String line) {
         if ( match( line, "exec" ) ) return true;
         return false;
     }
-
     private static boolean checkPathTraversal(String line) {
         if ( match( line, "file" ) ) return true;
         return false;
     }
-
     private static boolean checkCookie(String line) {
         if ( match( line, "setsecure" ) && match( line, "false" ) ) return true;
         return false;
     }
-
     private static boolean checkXpath(String line) {
         if ( match( line, "xpath" ) ) return true;
         return false;
     }
-
     private static boolean checkRandom(String line) {
         if ( match( line, "random" ) ) return true;
         return false;
     }
-
     private static boolean checkCrypto(String line) {
         if ( match( line, "cipher" ) ) return true;
         return false;
     }
-
     private static boolean checkHash(String line) {
         if ( match( line, "digest" ) ) return true;
         return false;
     }
-
     private static boolean checkTrustBoundary(String line) {
         if ( match( line, "putValue" ) ) return true;
         if ( match( line, "setAttribute" ) ) return true;
         return false;
     }
-
     public static boolean checkSQL( String line ) {
         if ( match( line, "sql" ) ) return true;
         return false;

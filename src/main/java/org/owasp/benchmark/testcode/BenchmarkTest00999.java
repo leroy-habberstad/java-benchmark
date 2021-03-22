@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-02/BenchmarkTest00999")
 public class BenchmarkTest00999 extends HttpServlet {
 	
@@ -41,7 +37,6 @@ public class BenchmarkTest00999 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/sqli-02/BenchmarkTest00999.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -57,7 +52,6 @@ public class BenchmarkTest00999 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = new Test().doSomething(request, param);
 		
 		String sql = "{call " + bar + "}";
@@ -78,12 +72,9 @@ public class BenchmarkTest00999 extends HttpServlet {
 			else throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar;
 		
 		// Simple if statement that assigns constant to bar on true condition
@@ -91,9 +82,7 @@ public class BenchmarkTest00999 extends HttpServlet {
 		if ( (7*42) - num > 200 )
 		   bar = "This_should_always_happen"; 
 		else bar = param;
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

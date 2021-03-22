@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-04/BenchmarkTest01869")
 public class BenchmarkTest01869 extends HttpServlet {
 	
@@ -41,11 +37,9 @@ public class BenchmarkTest01869 extends HttpServlet {
 		javax.servlet.RequestDispatcher rd = request.getRequestDispatcher("/weakrand-04/BenchmarkTest01869.html");
 		rd.include(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		javax.servlet.http.Cookie[] theCookies = request.getCookies();
 		
 		String param = "noCookieValueSupplied";
@@ -57,7 +51,6 @@ public class BenchmarkTest01869 extends HttpServlet {
 				}
 			}
 		}
-
 		String bar = doSomething(request, param);
 		
 	    try {
@@ -119,7 +112,6 @@ user + " has been remembered with cookie: " + rememberMe.getName()
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = org.apache.commons.lang.StringEscapeUtils.escapeHtml(param);
 	
 		return bar;	

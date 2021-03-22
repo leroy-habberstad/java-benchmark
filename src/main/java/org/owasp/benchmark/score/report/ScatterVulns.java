@@ -15,9 +15,7 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.report;
-
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.io.File;
@@ -29,9 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import javax.swing.JFrame;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -47,12 +43,10 @@ import org.owasp.benchmark.score.BenchmarkScore;
 import org.owasp.benchmark.score.parsers.OverallResult;
 import org.owasp.benchmark.score.parsers.OverallResults;
 import org.owasp.benchmark.score.parsers.TestResults;
-
 public class ScatterVulns extends ScatterPlot {
     char averageLabel;
     double afr = 0;
     double atr = 0;
-
     // Commercial Scores
     private int commercialToolCount = 0;
     private double commercialLow = 100;
@@ -62,7 +56,6 @@ public class ScatterVulns extends ScatterPlot {
     private double commercialAve = 0;
     public final String category;
     public final String focus;
-
     /**
      * This calculates how all the tools did against the Benchmark in this
      * vulnerability category
@@ -83,26 +76,21 @@ public class ScatterVulns extends ScatterPlot {
         this.focus = focus;
         display("          " + title, height, category, toolResults);
     }
-
     private JFreeChart display(String title, int height, String category, Set<Report> toolResults) {
         JFrame f = new JFrame(title);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // averages
         ArrayList<Double> averageFalseRates = new ArrayList<Double>();
         ArrayList<Double> averageTrueRates = new ArrayList<Double>();
-
         int commercialToolCount = 0;
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSeries series = new XYSeries("Scores");
-
         for (Report toolReport : toolResults) {
             if (!toolReport.isCommercial()) {
                 OverallResult overallResult = toolReport.getOverallResults().getResults(category);
                 series.add(overallResult.falsePositiveRate * 100, overallResult.truePositiveRate * 100);
             }
         }
-
         for (Report toolReport : toolResults) {
             if (toolReport.isCommercial()) {
                 OverallResult overallResult = toolReport.getOverallResults().getResults(category);
@@ -114,34 +102,25 @@ public class ScatterVulns extends ScatterPlot {
                 averageTrueRates.add(overallResult.truePositiveRate);
             }
         }
-
         for (double d : averageFalseRates) {
             afr += d;
         }
         afr = afr / averageFalseRates.size();
-
         for (double d : averageTrueRates) {
             atr += d;
         }
         atr = atr / averageTrueRates.size();
-
         if (commercialToolCount > 1 || (BenchmarkScore.showAveOnlyMode && commercialToolCount == 1)) {
             series.add(afr * 100, atr * 100);
         }
-
         dataset.addSeries(series);
-
         chart = ChartFactory.createScatterPlot(title, "False Positive Rate", "True Positive Rate", 
             dataset, PlotOrientation.VERTICAL, true, true, false);
         theme.apply(chart);
-
         XYPlot xyplot = chart.getXYPlot();
-
         initializePlot(xyplot);
-
         makeDataLabels(category, toolResults, xyplot);
         makeLegend(category, toolResults, 103, 100.5, dataset, xyplot);
-
         for (XYDataItem item : (List<XYDataItem>) series.getItems()) {
             double x = item.getX().doubleValue();
             double y = item.getY().doubleValue();
@@ -149,17 +128,14 @@ public class ScatterVulns extends ScatterPlot {
             XYLineAnnotation score = new XYLineAnnotation(x, y, z, z, dashed, Color.blue);
             xyplot.addAnnotation(score);
         }
-
         ChartPanel cp = new ChartPanel(chart, height, height, 400, 400, 1200, 1200, false, false, false, 
              false, false, false);
         f.add(cp);
         f.pack();
         f.setLocationRelativeTo(null);
         // f.setVisible(true);
-
         return chart;
     }
-
     private void makeDataLabels(String category, Set<Report> toolResults, XYPlot xyplot) {
         HashMap<Point2D, String> map = makePointList(category, toolResults);
         for (Entry<Point2D, String> e : map.entrySet()) {
@@ -179,7 +155,6 @@ public class ScatterVulns extends ScatterPlot {
             }
         }
     }
-
     private String sort(String value) {
         String[] parts = value.split(",");
         Arrays.sort(parts);
@@ -191,17 +166,13 @@ public class ScatterVulns extends ScatterPlot {
         }
         return sb.toString();
     }
-
     private SecureRandom sr = new SecureRandom();
-
     private HashMap<Point2D, String> makePointList(String category, Set<Report> toolResults) {
         HashMap<Point2D, String> map = new HashMap<Point2D, String>();
         char ch = ScatterHome.INITIAL_LABEL;
-
         // make a list of all points. Add in a tiny random to prevent exact
         // duplicate coordinates in map
         int commercialToolCount = 0;
-
         for (Report r : toolResults) {
             if (!r.isCommercial()) {
                 OverallResult or = r.getOverallResults().getResults(category);
@@ -215,7 +186,6 @@ public class ScatterVulns extends ScatterPlot {
                 if (ch == 'Z') ch = 'a'; else ch++;
             }
         }
-
         for (Report r : toolResults) {
             if (r.isCommercial()) {
                 commercialToolCount++;
@@ -232,7 +202,6 @@ public class ScatterVulns extends ScatterPlot {
                 }
             }
         }
-
         if (commercialToolCount > 1 || (BenchmarkScore.showAveOnlyMode && commercialToolCount == 1)) {
             Point2D ap = new Point2D.Double(afr * 100 + sr.nextDouble() * .000001, atr * 100 
                + sr.nextDouble() * .000001 - 1);
@@ -242,7 +211,6 @@ public class ScatterVulns extends ScatterPlot {
         dedupify(map);
         return map;
     }
-
     private void dedupify(HashMap<Point2D, String> map) {
         for (Entry<Point2D, String> e1 : map.entrySet()) {
             Entry<Point2D, String> e2 = getMatch(map, e1);
@@ -260,7 +228,6 @@ public class ScatterVulns extends ScatterPlot {
             }
         }
     }
-
     private Entry<Point2D, String> getMatch(HashMap<Point2D, String> map, Entry<Point2D, String> e1) {
         for (Entry<Point2D, String> e2 : map.entrySet()) {
             Double xd = Math.abs(e1.getKey().getX() - e2.getKey().getX());
@@ -272,16 +239,12 @@ public class ScatterVulns extends ScatterPlot {
         }
         return null;
     }
-
     private void makeLegend(String category, Set<Report> toolResults, double x, double y,
         XYSeriesCollection dataset, XYPlot xyplot) {
-
         char ch = ScatterHome.INITIAL_LABEL;
         int i = -2;
-
         // non-commercial results
         boolean printedNonCommercialLabel = false;
-
         for (Report r : toolResults) {
             if (!r.isCommercial()) {
                 // print non commercial label if there is at least one
@@ -296,7 +259,6 @@ public class ScatterVulns extends ScatterPlot {
                     i++;
                     printedNonCommercialLabel = true;
                 }
-
                 OverallResults or = r.getOverallResults();
                 // Special hack to make it line up better if the letter is an 'I' or 'i'
                 String label = ( ch == 'I' || ch == 'i' ? ch + ":  " : ""+ch + ": " );
@@ -314,15 +276,12 @@ public class ScatterVulns extends ScatterPlot {
                 if (ch == 'Z') ch = 'a'; else ch++;
             }
         }
-
         // commercial tools
         boolean printedCommercialLabel = false;
         double commercialTotal = 0;
-
         for (Report r : toolResults) {
             OverallResults or = r.getOverallResults();
             if (r.isCommercial()) {
-
                 // print commercial label if there is at least one commercial
                 // tool
                 if (!printedCommercialLabel) {
@@ -335,7 +294,6 @@ public class ScatterVulns extends ScatterPlot {
                     i++;
                     printedCommercialLabel = true;
                 }
-
                 commercialToolCount++;
                 double score = or.getResults(category).score * 100;
                 // don't show the commercial tool results if in 'show ave only mode'
@@ -354,7 +312,6 @@ public class ScatterVulns extends ScatterPlot {
                     if (ch == 'Z') ch = 'a'; else ch++;
                 }
                 commercialTotal += score;
-
                 if (score < commercialLow) {
                     commercialLow = score;
                     commercialLowToolType = r.getToolType();
@@ -364,7 +321,6 @@ public class ScatterVulns extends ScatterPlot {
                     commercialHighToolType = r.getToolType();
                 }                
             }
-
             // Add color emphasis to the tool of focus
             if (r.getToolName().replace(' ','_').equalsIgnoreCase(focus)) {
                 OverallResult orc = r.getOverallResults().getResults(category);
@@ -373,7 +329,6 @@ public class ScatterVulns extends ScatterPlot {
                 makePoint(xyplot, focusPoint, 3, green);
             }
         }
-
         // commercial average
         if (commercialToolCount > 1 || (BenchmarkScore.showAveOnlyMode && commercialToolCount == 1)) {
             commercialAve = commercialTotal / commercialToolCount;
@@ -384,13 +339,11 @@ public class ScatterVulns extends ScatterPlot {
             stroketext2.setPaint(Color.magenta);
             stroketext2.setFont(theme.getRegularFont());
             xyplot.addAnnotation(stroketext2);
-
             Point2D averagePoint = new Point2D.Double(afr * 100, atr * 100);
             Color red = new Color(1, 0, 0, 0.5f);
             makePoint(xyplot, averagePoint, 3, red);
         }
     }
-
     public static ScatterVulns generateComparisonChart(String category, Set<Report> toolResults, String focus) {
         try {
             String scatterTitle = "OWASP Benchmark" + (BenchmarkScore.mixedMode ? " -" : " v" 
@@ -405,29 +358,23 @@ public class ScatterVulns extends ScatterPlot {
             return null;
         }
     }
-
     // FIXME -- this is all a terrible mixing of view and model
     // This should be calculated and accessed through the Results (which needs a refactor to be a better DB)
     public int getCommercialToolCount() {
         return commercialToolCount;
     }
-
     public int getCommercialLow() {
         return (int) Math.round(commercialLow);
     }
-
     public TestResults.ToolType getCommercialLowToolType() {
         return commercialLowToolType;
     }
-
     public int getCommercialAve() {
         return (int) Math.round(commercialAve);
     }
-
     public int getCommercialHigh() {
         return (int) Math.round(commercialHigh);
     }
-
     public TestResults.ToolType getCommercialHighToolType() {
         return commercialHighToolType;
     }

@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/weakrand-03/BenchmarkTest01675")
 public class BenchmarkTest01675 extends HttpServlet {
 	
@@ -35,7 +31,6 @@ public class BenchmarkTest01675 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
@@ -56,13 +51,11 @@ public class BenchmarkTest01675 extends HttpServlet {
 			param = queryString.substring(paramLoc + paramval.length(), ampersandLoc);
 		}
 		param = java.net.URLDecoder.decode(param, "UTF-8");
-
 		String bar = new Test().doSomething(request, param);
 		
 		byte[] bytes = new byte[10];
 		new java.util.Random().nextBytes(bytes);
         String rememberMeKey = org.owasp.esapi.ESAPI.encoder().encodeForBase64(bytes, true);
-
 		String user = "Byron";
 		String fullClassName = this.getClass().getName();
 		String testCaseNumber = fullClassName.substring(fullClassName.lastIndexOf('.')+1+"BenchmarkTest".length());
@@ -101,17 +94,13 @@ public class BenchmarkTest01675 extends HttpServlet {
 					+ " whose value is: " + rememberMe.getValue() + "<br/>"
 			);
 		}
-
 		response.getWriter().println(
 		"Weak Randomness Test java.util.Random.nextBytes() executed"
 		);
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "alsosafe";
 		if (param != null) {
 			java.util.List<String> valuesList = new java.util.ArrayList<String>( );
@@ -123,9 +112,7 @@ public class BenchmarkTest01675 extends HttpServlet {
 			
 			bar = valuesList.get(1); // get the last 'safe' value
 		}
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

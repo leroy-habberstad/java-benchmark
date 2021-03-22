@@ -15,17 +15,13 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/pathtraver-01/BenchmarkTest01235")
 public class BenchmarkTest01235 extends HttpServlet {
 	
@@ -35,14 +31,12 @@ public class BenchmarkTest01235 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	
 		String param = request.getParameter("BenchmarkTest01235");
 		if (param == null) param = "";
-
 		String bar = new Test().doSomething(request, param);
 		
 		// FILE URIs are tricky because they are different between Mac and Windows because of lack of standardization.
@@ -52,7 +46,6 @@ public class BenchmarkTest01235 extends HttpServlet {
 	        if (System.getProperty("os.name").indexOf("Windows") != -1)
 	        	startURIslashes = "/";
 	        else startURIslashes = "//";
-
 		try {
 			java.net.URI fileURI = new java.net.URI("file:" + startURIslashes 
 				+ org.owasp.benchmark.helpers.Utils.testfileDir.replace('\\', '/').replace(' ', '_') + bar);
@@ -71,21 +64,16 @@ public class BenchmarkTest01235 extends HttpServlet {
 			throw new ServletException(e);
 		}
 	}  // end doPost
-
 	
     private class Test {
-
         public String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		String bar = "safe!";
 		java.util.HashMap<String,Object> map13886 = new java.util.HashMap<String,Object>();
 		map13886.put("keyA-13886", "a-Value"); // put some stuff in the collection
 		map13886.put("keyB-13886", param); // put it in a collection
 		map13886.put("keyC", "another-Value"); // put some stuff in the collection
 		bar = (String)map13886.get("keyB-13886"); // get it back out
-
             return bar;
         }
     } // end innerclass Test
-
 } // end DataflowThruInnerClass

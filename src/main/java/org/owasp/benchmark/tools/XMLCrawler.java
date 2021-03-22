@@ -1,13 +1,10 @@
 package org.owasp.benchmark.tools;
-
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 public class XMLCrawler {
 	public static Node getNamedNode(String name, NodeList list) {
 		for (int i = 0; i < list.getLength(); i++) {
@@ -18,12 +15,10 @@ public class XMLCrawler {
 		}
 		return null;
 	}
-
 	public static Node getNamedChild(String name, Node parent) {
 		NodeList children = parent.getChildNodes();
 		return getNamedNode(name, children);
 	}
-
 	public static List<Node> getNamedChildren(String name, List<Node> list) {
 		List<Node> results = new ArrayList<Node>();
 		for (Node n : list) {
@@ -38,12 +33,10 @@ public class XMLCrawler {
 		}
 		return results;
 	}
-
 	public static List<Node> getNamedChildren(String name, Node parent) {
 		NodeList children = parent.getChildNodes();
 		return getNamedNodes(name, children);
 	}
-
 	public static List<Node> getNamedNodes(String name, NodeList list) {
 		List<Node> results = new ArrayList<Node>();
 		for (int i = 0; i < list.getLength(); i++) {
@@ -56,7 +49,6 @@ public class XMLCrawler {
 		}
 		return results;
 	}
-
 	public static String getAttributeValue(String name, Node node) {
 		if (node == null) {
 			return null;
@@ -74,9 +66,7 @@ public class XMLCrawler {
 		}
 		return null;
 	}
-
 	private static SecureRandom sr = new SecureRandom();
-
 	private static String getToken() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 5; i++) {

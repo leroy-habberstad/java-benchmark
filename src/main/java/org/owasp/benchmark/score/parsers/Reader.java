@@ -15,18 +15,13 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 public class Reader {
-
     public static Node getNamedNode(String name, NodeList list) {
         for (int i = 0; i < list.getLength(); i++) {
             Node n = list.item(i);
@@ -36,7 +31,6 @@ public class Reader {
         }
         return null;
     }
-
     // Returns the node inside this nodelist whose name matches 'name', that also has an attribute
     // called 'key' whose value matches 'keyvalue'
     public static Node getNamedNode(String name, String keyValue, NodeList list) {
@@ -51,12 +45,10 @@ public class Reader {
         }
         return null;
     }
-
     public static Node getNamedChild(String name, Node parent) {
         NodeList children = parent.getChildNodes();
         return getNamedNode( name, children );
     }
-
     public static List<Node> getNamedChildren(String name, List<Node> list) {
         List<Node> results = new ArrayList<Node>();
         for (Node n : list) {
@@ -71,7 +63,6 @@ public class Reader {
         }
         return results;
     }
-
     public static List<Node> getNamedChildren(String name, Node parent) {
         NodeList children = parent.getChildNodes();
         return getNamedNodes( name, children );
@@ -88,7 +79,6 @@ public class Reader {
         }
         return results;
     }
-
     public static String getAttributeValue(String name, Node node) {
         if (node == null)
             return null;

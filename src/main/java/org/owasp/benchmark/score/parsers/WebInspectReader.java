@@ -15,19 +15,14 @@
 * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class WebInspectReader extends Reader {
 	
 	public TestResults parse( Node root ) throws Exception {
         TestResults tr = new TestResults( "HP WebInspect", true, TestResults.ToolType.DAST);
-
         // <Scan><Name>Site: https://10.240.28.203:8443/benchmark/</Name><PolicyName>Standard</PolicyName>
         // <StartTime>9/11/2015 1:56:13 PM</StartTime><Duration>02:59:39.0365257</Duration><Issues><Issue>
                 
@@ -65,11 +60,9 @@ public class WebInspectReader extends Reader {
 	
 	private TestCaseResult parseWebInspectIssue( Node flaw ) throws Exception {
         TestCaseResult tcr = new TestCaseResult();
-
         String cat = getNamedChild("Name", flaw).getTextContent();
         tcr.setCategory( cat );
         tcr.setEvidence( cat );
-
         Node vulnId = getNamedChild("VulnerabilityID", flaw);
         if ( vulnId != null ) {
             String vuln = vulnId.getTextContent();
@@ -100,7 +93,6 @@ public class WebInspectReader extends Reader {
         }
         return null;
     }
-
 	
 	private static int cweLookup( String rule ) {
 		switch( rule ) {
@@ -150,5 +142,4 @@ public class WebInspectReader extends Reader {
         }
 		return 0;
 	}
-
 }

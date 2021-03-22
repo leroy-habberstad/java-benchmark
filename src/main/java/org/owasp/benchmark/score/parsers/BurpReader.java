@@ -15,33 +15,23 @@
  * @author Dave Wichers <a href="https://www.aspectsecurity.com">Aspect Security</a>
  * @created 2015
  */
-
 package org.owasp.benchmark.score.parsers;
-
 import java.util.List;
-
 import org.owasp.benchmark.score.BenchmarkScore;
 import org.w3c.dom.Node;
-
 public class BurpReader extends Reader {
     
     public TestResults parse(Node root) throws Exception {
-
         TestResults tr = new TestResults("Burp Suite Pro", true, TestResults.ToolType.DAST);
-
         // <issues burpVersion="1.6.24"
         // exportTime="Wed Aug 19 23:27:54 EDT 2015">
-
         String version = getAttributeValue("burpVersion", root);
         tr.setToolVersion(version);
-
         // String time = getAttributeValue("ScanTime", root);
         // tr.setTime( time );
         // TODO - fix it so you can get the time out of the Burp Results filename by default.
         // TODO - Ideally, we'd get the time out of the Burp results file, if they can provide it
-
         List<Node> issueList = getNamedChildren("issue", root);
-
         for (Node issue : issueList) {
             TestCaseResult tcr = parseBurpVulnerability(issue);
             if (tcr != null) {
@@ -51,7 +41,6 @@ public class BurpReader extends Reader {
         }
         return tr;
     }
-
     // <issue>
     // <serialNumber>5773821289236842496</serialNumber>
     // <type>2097920</type>
@@ -65,19 +54,15 @@ public class BurpReader extends Reader {
     // <references></references>
     // <issueDetail></issueDetail>
     // </issue>
-
     private TestCaseResult parseBurpVulnerability(Node issue) {
         TestCaseResult tcr = new TestCaseResult();
         String cwe = getNamedChild("type", issue).getTextContent();
         tcr.setCWE(translate(cwe));
-
         String name = getNamedChild("name", issue).getTextContent();
         tcr.setCategory(name);
         tcr.setEvidence(name);
-
         //String confidence = getNamedChild( "confidence", issue ).getTextContent();
         // tcr.setConfidence( makeIntoInt( confidence ) );
-
         String testcase = getNamedChild("path", issue).getTextContent();
         testcase = testcase.substring(testcase.lastIndexOf('/') + 1);
         testcase = testcase.split("\\.")[0];        
@@ -90,7 +75,6 @@ public class BurpReader extends Reader {
             }
             return tcr;
         }
-
         return null;
     }
     // https://portswigger.net/burp/help/scanner_issuetypes.html - This page lists all the issue types Burp 
@@ -151,5 +135,4 @@ public class BurpReader extends Reader {
         System.out.println("Unknown id: " + id);
         return -1;
     }
-
 }

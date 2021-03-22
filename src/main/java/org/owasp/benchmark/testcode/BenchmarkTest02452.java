@@ -15,17 +15,13 @@
 * @author Nick Sanidas <a href="https://www.aspectsecurity.com">Aspect Security</a>
 * @created 2015
 */
-
 package org.owasp.benchmark.testcode;
-
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 @WebServlet(value="/sqli-05/BenchmarkTest02452")
 public class BenchmarkTest02452 extends HttpServlet {
 	
@@ -35,15 +31,12 @@ public class BenchmarkTest02452 extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
-
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-
 		org.owasp.benchmark.helpers.SeparateClassRequest scr = new org.owasp.benchmark.helpers.SeparateClassRequest( request );
 		String param = scr.getTheParameter("BenchmarkTest02452");
 		if (param == null) param = "";
-
 		String bar = doSomething(request, param);
 		
 		String sql = "SELECT * from USERS where USERNAME='foo' and PASSWORD='" + bar + "'";
@@ -52,7 +45,6 @@ public class BenchmarkTest02452 extends HttpServlet {
 			response.getWriter().println(
 				"Your results are: <br>"
 			);
-
 	//		System.out.println("Your results are");
 			
 			for (Object o:list) {
@@ -78,7 +70,6 @@ public class BenchmarkTest02452 extends HttpServlet {
 	
 		
 	private static String doSomething(HttpServletRequest request, String param) throws ServletException, IOException {
-
 		// Chain a bunch of propagators in sequence
 		String a91263 = param; //assign
 		StringBuilder b91263 = new StringBuilder(a91263);  // stick in stringbuilder
